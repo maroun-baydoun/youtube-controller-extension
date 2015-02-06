@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "Youtube Controller",
+  "description": "This extension controls Youtube",
+  "version": "0.1",
+  "browser_action": {
+  },
+  "background": {
+    "scripts": ["script.js"]
+  },
+  "permissions":["tabs", "http://*/*", "https://*/*"]
+}
