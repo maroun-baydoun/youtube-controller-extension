@@ -1,0 +1,28 @@
+html, body{
+    margin: 0;
+    paddin: 0;
+}
+
+body{
+  min-width: 200px;
+  min-height: 300px;
+}
+
+header{
+  background-color: darkgrey;
+  height: 15px;
+  color: #f1f1f1;
+  padding: 15px;
+  font-weight: bold;
+}
+
+ul{
+ width: 100%;
+ padding: 0;
+}
+
+
+ul li{
+  list-style: none;
+  margin: 10px 0;
+}
