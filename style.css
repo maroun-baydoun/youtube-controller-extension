@@ -4,25 +4,29 @@ html, body{
 }
 
 body{
-  min-width: 200px;
-  min-height: 300px;
-}
-
-header{
-  background-color: darkgrey;
-  height: 15px;
-  color: #f1f1f1;
-  padding: 15px;
-  font-weight: bold;
+  min-width: 300px;
+  min-height: 400px;
+  font-family: sans-serif;
 }
 
 ul{
  width: 100%;
  padding: 0;
+ margin-top: 30px;
 }
 
-
-ul li{
+li{
   list-style: none;
   margin: 10px 0;
+  padding: 0 10px;
+  min-height: 40px;
+}
+
+li span, li button{
+  display: inline-block;
+  float: left;
+}
+
+li span{
+  max-width: 200px;
 }
