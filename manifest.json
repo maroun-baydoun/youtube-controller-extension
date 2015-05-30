@@ -7,7 +7,8 @@
       "default_popup": "popup.html"
   },
   "background": {
- 
+
   },
+  "icons": { "32": "icon-small.png"},
   "permissions":["tabs", "http://*/*", "https://*/*"]
 }
