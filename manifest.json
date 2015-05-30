@@ -9,6 +9,10 @@
   "background": {
 
   },
-  "icons": { "32": "icon-small.png"},
+  "icons": {
+    "32": "icon-small.png",
+    "64": "icon-medium.png",
+    "128": "icon-large.png"
+    },
   "permissions":["tabs", "http://*/*", "https://*/*"]
 }
