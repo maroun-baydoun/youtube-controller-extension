@@ -4,8 +4,14 @@ window.addEventListener('DOMContentLoaded', function () {
     }, function (tabs) {
 
         var videoList = document.getElementById('video-list'),
+            notice = document.getElementById('notice'),
             youtubeTitleEnding = "- YouTube",
             youtubeTitleEndingLength = youtubeTitleEnding.length;
+
+        if (tabs.length > 0) {
+          notice.classList.add("hidden");
+          videoList.classList.remove("hidden");
+        }
 
         tabs.forEach(function (tab) {
             var videoListItem = document.createElement("li"),
