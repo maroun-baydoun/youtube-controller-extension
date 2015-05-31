@@ -6,7 +6,7 @@ html, body{
 body{
   min-width: 300px;
   min-height: 400px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 ul{
