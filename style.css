@@ -28,5 +28,11 @@ li span, li button{
 }
 
 li span{
+  color: #666;
   width: 200px;
+  cursor: pointer;
+}
+
+li span:hover{
+  color: #000;
 }
