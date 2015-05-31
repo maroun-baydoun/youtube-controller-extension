@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', function () {
             var videoListItem = document.createElement("li"),
                 videoListItemText = document.createElement("span"),
                 videoControl = document.createElement("button"),
+                videoControlText = "",
                 tabId = tab.id,
                 tabTitle = tab.title;
 
@@ -25,15 +26,24 @@ window.addEventListener('DOMContentLoaded', function () {
                 tabTitle = tabTitle.substring(0, tabTitle.length - youtubeTitleEndingLength).trim();
             }
 
-            videoControl.classList.add("videoControlButton");
-            videoControl.appendChild(document.createTextNode("Play/Pause"));
-            videoControl.addEventListener("click",videoControlClicked);
-            videoListItemText.appendChild(document.createTextNode(tabTitle));
-            videoListItemText.addEventListener("click",videoNameClicked);
-            videoListItem.appendChild(videoListItemText);
-            videoListItem.appendChild(videoControl);
-            videoListItem.dataset.tabId = tabId;
-            videoList.appendChild(videoListItem);
+            chrome.tabs.executeScript(tabId, {
+                         code: 'var video = document.querySelector("video");'+
+                               'video.paused;'
+                     }, function(result){
+
+                       videoControlText = (result[0]===true)?"Play":"Pause";
+
+                       videoControl.classList.add("videoControlButton");
+                       videoControl.appendChild(document.createTextNode(videoControlText));
+                       videoControl.addEventListener("click",videoControlClicked);
+                       videoListItemText.appendChild(document.createTextNode(tabTitle));
+                       videoListItemText.addEventListener("click",videoNameClicked);
+                       videoListItem.appendChild(videoListItemText);
+                       videoListItem.appendChild(videoControl);
+                       videoListItem.dataset.tabId = tabId;
+                       videoList.appendChild(videoListItem);
+                     });
+
         });
 
     });
@@ -46,7 +56,7 @@ function videoControlClicked() {
                 code: 'var video = document.querySelector("video");'+
                       'if (video.paused){video.play();} else {video.pause();}'
             }, function(result){
-              
+
             });
 }
 
