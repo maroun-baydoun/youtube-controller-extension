@@ -1,18 +1,19 @@
 html, body{
     margin: 0;
-    paddin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 body{
   min-width: 300px;
   min-height: 400px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 ul{
  width: 100%;
- padding: 0;
- margin-top: 30px;
+ padding: 30px 0 0 0;
+ margin: 0;
 }
 
 li{
@@ -28,5 +29,24 @@ li span, li button{
 }
 
 li span{
+  color: #666;
   width: 200px;
+  cursor: pointer;
+}
+
+li span:hover{
+  color: #000;
+}
+
+.hidden{
+  display: none;
+}
+
+#notice{
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
