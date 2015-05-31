@@ -32,10 +32,15 @@ li span{
   color: #666;
   width: 200px;
   cursor: pointer;
+  float: left;
 }
 
 li span:hover{
   color: #000;
+}
+
+li button{
+  float: right;
 }
 
 .hidden{
