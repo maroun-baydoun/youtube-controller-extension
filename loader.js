@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', function() {
         videoControlText = (result[0] === true) ? "Play" : "Pause";
 
         videoControl.classList.add("videoControlButton");
-        videoControl.appendChild(document.createTextNode(videoControlText));
+        videoControl.textContent = videoControlText;
         videoControl.addEventListener("click", videoControlClicked);
         videoListItemText.appendChild(document.createTextNode(tabTitle));
         videoListItemText.addEventListener("click", videoNameClicked);
@@ -54,9 +54,14 @@ function videoControlClicked() {
   var tabId = parseInt(this.parentNode.dataset.tabId);
   chrome.tabs.executeScript(tabId, {
     code: 'var video = document.querySelector("video");' +
-      'if (video.paused){video.play();} else {video.pause();}'
+      'if (video.paused){video.play();} else {video.pause();}'+
+      'video.paused;'
   }, function(result) {
+      var paused = (result[0] === true),
+          videoListItem = document.querySelector("li[data-tab-id=\""+tabId+"\"]"),
+          videoControl  = videoListItem.querySelector("button");
 
+      videoControl.textContent = paused?"Play":"Pause";
   });
 }
 
