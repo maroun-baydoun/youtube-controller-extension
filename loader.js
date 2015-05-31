@@ -43,10 +43,11 @@ window.addEventListener('DOMContentLoaded', function () {
 function videoControlClicked() {
    var tabId = parseInt(this.parentNode.dataset.tabId);
    chrome.tabs.executeScript(tabId, {
-                code: 'var playButton = document.querySelectorAll(".ytp-button-play")[0];'+
-                      'var pauseButton =   document.querySelectorAll(".ytp-button-pause")[0];'+
-                      'if(playButton){playButton.click();}else if(pauseButton){pauseButton.click();}'
-            }, function(a){console.log(a);});
+                code: 'var video = document.querySelector("video");'+
+                      'if (video.paused){video.play();} else {video.pause();}'
+            }, function(result){
+              
+            });
 }
 
 function videoNameClicked() {
