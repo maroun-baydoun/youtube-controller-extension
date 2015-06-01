@@ -6,11 +6,26 @@
     if (tabs.length === 1) {
 
       var tabId = tabs[0].id;
-      controlVideo(tabId);
+      controlVideo(tabId, function(paused) {
 
-      window.close();
+        var badge = paused ? "\u2016" : "\u25B6";
+
+        chrome.browserAction.setBadgeText({
+          "text": badge
+        });
+
+        window.close();
+
+      });
+
+
+
 
     } else if (tabs.length > 0) {
+
+      chrome.browserAction.setBadgeText({
+        "text": ""
+      });
 
       var videoList = document.getElementById('video-list'),
         notice = document.getElementById('notice'),
