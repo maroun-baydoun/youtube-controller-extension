@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Youtube Controller",
   "description": "Control Youtube videos from any web page",
-  "version": "0.2",
+  "version": "0.3",
   "browser_action": {
       "default_popup": "popup.html"
   },
@@ -12,7 +12,8 @@
   "icons": {
     "32": "icon-small.png",
     "64": "icon-medium.png",
-    "128": "icon-large.png"
+    "128": "icon-large.png",
+    "256": "icon.png"
     },
   "permissions":["tabs", "http://*/*", "https://*/*"]
 }
