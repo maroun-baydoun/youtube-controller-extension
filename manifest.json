@@ -12,7 +12,8 @@
   "icons": {
     "32": "icon-small.png",
     "64": "icon-medium.png",
-    "128": "icon-large.png"
+    "128": "icon-large.png",
+    "256": "icon.png"
     },
   "permissions":["tabs", "http://*/*", "https://*/*"]
 }
