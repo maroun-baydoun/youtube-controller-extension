@@ -18,9 +18,6 @@
 
       });
 
-
-
-
     } else if (tabs.length > 0) {
 
       chrome.browserAction.setBadgeText({
@@ -61,9 +58,9 @@
           videoControl.textContent = videoControlText;
           videoControl.addEventListener("click", videoControlClicked);
           videoListItemText.appendChild(document.createTextNode(tabTitle));
-          videoListItemText.addEventListener("click", videoNameClicked);
           videoListItem.appendChild(videoListItemText);
           videoListItem.appendChild(videoControl);
+          videoListItem.addEventListener("click", videoItemClicked);
           videoListItem.dataset.tabId = tabId;
           videoList.appendChild(videoListItem);
         });
@@ -85,7 +82,8 @@
     });
   }
 
-  function videoControlClicked() {
+  function videoControlClicked(event) {
+    event.stopPropagation();
     var tabId = parseInt(this.parentNode.dataset.tabId);
     controlVideo(tabId, function(paused) {
       var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
@@ -95,8 +93,8 @@
     });
   }
 
-  function videoNameClicked() {
-    var tabId = parseInt(this.parentNode.dataset.tabId);
+  function videoItemClicked(event) {
+    var tabId = parseInt(this.dataset.tabId);
     chrome.tabs.update(tabId, {
       selected: true
     });
