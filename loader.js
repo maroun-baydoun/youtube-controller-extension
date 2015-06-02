@@ -3,6 +3,9 @@
     url: "https://www.youtube.com/watch*"
   }, function(tabs) {
 
+    var notice = document.getElementById('notice'),
+      body = document.querySelector('body');
+
     if (tabs.length === 1) {
 
       var tabId = tabs[0].id;
@@ -14,14 +17,12 @@
 
     } else if (tabs.length > 0) {
 
+      body.removeChild(notice);
+
       var videoList = document.getElementById('video-list'),
-        notice = document.getElementById('notice'),
         youtubeTitleEnding = "- YouTube",
-        youtubeTitleEndingLength = youtubeTitleEnding.length;
-
-
-      notice.classList.add("hidden");
-      videoList.classList.remove("hidden");
+        youtubeTitleEndingLength = youtubeTitleEnding.length,
+        processedTabsCount = 0;
 
 
       tabs.forEach(function(tab) {
@@ -53,9 +54,21 @@
           videoListItem.addEventListener("click", videoItemClicked);
           videoListItem.dataset.tabId = tabId;
           videoList.appendChild(videoListItem);
+
+          processedTabsCount++;
+
+          if (processedTabsCount == tabs.length) {
+            setTimeout(function() {
+              videoList.classList.remove("hidden");
+            }, 300);
+          }
         });
 
       });
+
+    } else {
+
+      notice.classList.remove("hidden");
     }
 
   });
