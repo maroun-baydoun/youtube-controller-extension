@@ -49,9 +49,9 @@
           videoControl.classList.add(videoControlClass);
           videoControl.addEventListener("click", videoControlClicked);
           videoListItemText.textContent = tabTitle;
+          videoListItemText.addEventListener("click", videoItemClicked);
           videoListItem.appendChild(videoListItemText);
           videoListItem.appendChild(videoControl);
-          videoListItem.addEventListener("click", videoItemClicked);
           videoListItem.dataset.tabId = tabId;
           videoList.appendChild(videoListItem);
 
@@ -102,7 +102,7 @@
   }
 
   function videoItemClicked(event) {
-    var tabId = parseInt(this.dataset.tabId);
+    var tabId = parseInt(this.parentNode.dataset.tabId);
     chrome.tabs.update(tabId, {
       selected: true
     });
