@@ -10,19 +10,11 @@
 
         var badge = paused ? "\u2016" : "\u25B6";
 
-        chrome.browserAction.setBadgeText({
-          "text": badge
-        });
-
         window.close();
 
       });
 
     } else if (tabs.length > 0) {
-
-      chrome.browserAction.setBadgeText({
-        "text": ""
-      });
 
       var videoList = document.getElementById('video-list'),
         notice = document.getElementById('notice'),
