@@ -32,7 +32,7 @@ li:hover{
   color: #000;
 }
 
-li span, li button{
+li span, li a{
   display: inline-block;
 }
 
@@ -42,8 +42,17 @@ li span{
   padding: 5px 0;
 }
 
-li button{
+li a{
+  border: 1px solid #ccc;
   float: right;
+  padding: 3px 5px;
+  margin: 5px 0 0 0;
+  width: 10px;
+}
+
+
+li:hover a{
+  border-color: #aaa;
 }
 
 .hidden{

@@ -8,8 +8,6 @@
       var tabId = tabs[0].id;
       controlVideo(tabId, function(paused) {
 
-        var badge = paused ? "\u2016" : "\u25B6";
-
         window.close();
 
       });
@@ -29,7 +27,7 @@
       tabs.forEach(function(tab) {
         var videoListItem = document.createElement("li"),
           videoListItemText = document.createElement("span"),
-          videoControl = document.createElement("button"),
+          videoControl = document.createElement("a"),
           videoControlText = "",
           tabId = tab.id,
           tabTitle = tab.title;
@@ -44,12 +42,12 @@
             'video.paused;'
         }, function(result) {
 
-          videoControlText = (result[0] === true) ? "Play" : "Pause";
+          videoControlClass = (result[0] === true) ? "fa-pause" : "fa-play";
 
-          videoControl.classList.add("videoControlButton");
-          videoControl.textContent = videoControlText;
+          videoControl.classList.add("fa");
+          videoControl.classList.add(videoControlClass);
           videoControl.addEventListener("click", videoControlClicked);
-          videoListItemText.appendChild(document.createTextNode(tabTitle));
+          videoListItemText.textContent = tabTitle;
           videoListItem.appendChild(videoListItemText);
           videoListItem.appendChild(videoControl);
           videoListItem.addEventListener("click", videoItemClicked);
@@ -79,9 +77,14 @@
     var tabId = parseInt(this.parentNode.dataset.tabId);
     controlVideo(tabId, function(paused) {
       var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
-        videoControl = videoListItem.querySelector("button");
+        videoControl = videoListItem.querySelector("a");
 
-      videoControl.textContent = paused ? "Play" : "Pause";
+      videoControlClassToAdd = paused ? "fa-pause" : "fa-play";
+      videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+
+      videoControl.classList.add(videoControlClassToAdd);
+      videoControl.classList.remove(videoControlClassToRemove);
+
     });
   }
 
