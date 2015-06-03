@@ -3,16 +3,13 @@
     url: "https://www.youtube.com/watch*"
   }, function(tabs) {
 
+    var notice = document.getElementById('notice'),
+      body = document.querySelector('body');
+
     if (tabs.length === 1) {
 
       var tabId = tabs[0].id;
       controlVideo(tabId, function(paused) {
-
-        var badge = paused ? "\u2016" : "\u25B6";
-
-        chrome.browserAction.setBadgeText({
-          "text": badge
-        });
 
         window.close();
 
@@ -20,24 +17,18 @@
 
     } else if (tabs.length > 0) {
 
-      chrome.browserAction.setBadgeText({
-        "text": ""
-      });
+      body.removeChild(notice);
 
       var videoList = document.getElementById('video-list'),
-        notice = document.getElementById('notice'),
         youtubeTitleEnding = "- YouTube",
-        youtubeTitleEndingLength = youtubeTitleEnding.length;
-
-
-      notice.classList.add("hidden");
-      videoList.classList.remove("hidden");
+        youtubeTitleEndingLength = youtubeTitleEnding.length,
+        processedTabsCount = 0;
 
 
       tabs.forEach(function(tab) {
         var videoListItem = document.createElement("li"),
           videoListItemText = document.createElement("span"),
-          videoControl = document.createElement("button"),
+          videoControl = document.createElement("a"),
           videoControlText = "",
           tabId = tab.id,
           tabTitle = tab.title;
@@ -52,20 +43,32 @@
             'video.paused;'
         }, function(result) {
 
-          videoControlText = (result[0] === true) ? "Play" : "Pause";
+          videoControlClass = (result[0] === true) ? "fa-pause" : "fa-play";
 
-          videoControl.classList.add("videoControlButton");
-          videoControl.textContent = videoControlText;
+          videoControl.classList.add("fa");
+          videoControl.classList.add(videoControlClass);
           videoControl.addEventListener("click", videoControlClicked);
-          videoListItemText.appendChild(document.createTextNode(tabTitle));
+          videoListItemText.textContent = tabTitle;
+          videoListItemText.addEventListener("click", videoItemClicked);
           videoListItem.appendChild(videoListItemText);
           videoListItem.appendChild(videoControl);
-          videoListItem.addEventListener("click", videoItemClicked);
           videoListItem.dataset.tabId = tabId;
           videoList.appendChild(videoListItem);
+
+          processedTabsCount++;
+
+          if (processedTabsCount == tabs.length) {
+            setTimeout(function() {
+              videoList.classList.remove("hidden");
+            }, 300);
+          }
         });
 
       });
+
+    } else {
+
+      notice.classList.remove("hidden");
     }
 
   });
@@ -87,14 +90,19 @@
     var tabId = parseInt(this.parentNode.dataset.tabId);
     controlVideo(tabId, function(paused) {
       var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
-        videoControl = videoListItem.querySelector("button");
+        videoControl = videoListItem.querySelector("a");
 
-      videoControl.textContent = paused ? "Play" : "Pause";
+      videoControlClassToAdd = paused ? "fa-pause" : "fa-play";
+      videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+
+      videoControl.classList.add(videoControlClassToAdd);
+      videoControl.classList.remove(videoControlClassToRemove);
+
     });
   }
 
   function videoItemClicked(event) {
-    var tabId = parseInt(this.dataset.tabId);
+    var tabId = parseInt(this.parentNode.dataset.tabId);
     chrome.tabs.update(tabId, {
       selected: true
     });
