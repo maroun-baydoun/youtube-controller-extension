@@ -34,13 +34,13 @@ li:hover{
 
 li span, li a{
   display: inline-block;
+  cursor: pointer;
 }
 
 li span{
   width: 200px;
   float: left;
   padding: 5px 0;
-  cursor: pointer;
 }
 
 li a{
