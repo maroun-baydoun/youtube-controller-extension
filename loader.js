@@ -39,7 +39,7 @@
         }
 
         chrome.tabs.executeScript(tabId, {
-          code: 'var video = document.querySelector("video");' +
+          code: 'var video = document.getElementsByTagName("video")[0];' +
             'video.paused;'
         }, function(result) {
 
@@ -75,7 +75,7 @@
 
   function controlVideo(tabId, callback) {
     chrome.tabs.executeScript(tabId, {
-      code: 'var video = document.querySelector("video");' +
+      code: 'var video = document.getElementsByTagName("video")[0];' +
         'if (video.paused){video.play();} else {video.pause();}' +
         'video.paused;'
     }, function(result) {
