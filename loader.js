@@ -39,11 +39,11 @@
         }
 
         chrome.tabs.executeScript(tabId, {
-          code: 'var video = document.querySelector("video");' +
+          code: 'var video = document.getElementsByTagName("video")[0];' +
             'video.paused;'
         }, function(result) {
 
-          videoControlClass = (result[0] === true) ? "fa-pause" : "fa-play";
+          videoControlClass = (result[0] === true) ? "fa-play" : "fa-pause";
 
           videoControl.classList.add("fa");
           videoControl.classList.add(videoControlClass);
@@ -75,7 +75,7 @@
 
   function controlVideo(tabId, callback) {
     chrome.tabs.executeScript(tabId, {
-      code: 'var video = document.querySelector("video");' +
+      code: 'var video = document.getElementsByTagName("video")[0];' +
         'if (video.paused){video.play();} else {video.pause();}' +
         'video.paused;'
     }, function(result) {
@@ -92,7 +92,7 @@
       var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
         videoControl = videoListItem.querySelector("a");
 
-      videoControlClassToAdd = paused ? "fa-pause" : "fa-play";
+      videoControlClassToAdd = paused ? "fa-play" : "fa-pause";
       videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
 
       videoControl.classList.add(videoControlClassToAdd);
