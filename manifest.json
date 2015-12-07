@@ -17,5 +17,5 @@
     "128": "icon-large.png",
     "256": "icon.png"
     },
-  "permissions":["tabs", "http://*/*", "https://*/*"]
+  "permissions":["tabs", "*://*.youtube.com/*"]
 }
