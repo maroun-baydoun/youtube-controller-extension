@@ -3,7 +3,7 @@
   "name": "Youtube Controller",
   "description": "Control Youtube videos from any web page",
   "author": "Maroun Baydoun",
-  "version": "0.6",
+  "version": "0.7",
   "browser_action": {
     "default_popup": "popup.html"
   },
