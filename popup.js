@@ -1,7 +1,5 @@
-(function() {
-  chrome.tabs.query({
-    url: "https://www.youtube.com/watch*"
-  }, function(tabs) {
+(function(Util) {
+  Util.queryTabs(function(tabs) {
 
     var notice = document.getElementById('notice'),
       body = document.querySelector('body');
@@ -9,10 +7,8 @@
     if (tabs.length === 1) {
 
       var tabId = tabs[0].id;
-      controlVideo(tabId, function(paused) {
-
+      Util.toggleVideo(tabId, function(paused) {
         window.close();
-
       });
 
     } else if (tabs.length > 0) {
@@ -38,12 +34,9 @@
           tabTitle = tabTitle.substring(0, tabTitle.length - youtubeTitleEndingLength).trim();
         }
 
-        chrome.tabs.executeScript(tabId, {
-          code: 'var video = document.getElementsByTagName("video")[0];' +
-            'video.paused;'
-        }, function(result) {
+        Util.videoPaused(tabId, function(paused) {
 
-          videoControlClass = (result[0] === true) ? "fa-play" : "fa-pause";
+          videoControlClass = (paused === true) ? "fa-play" : "fa-pause";
 
           videoControl.classList.add("fa");
           videoControl.classList.add(videoControlClass);
@@ -73,22 +66,10 @@
 
   });
 
-  function controlVideo(tabId, callback) {
-    chrome.tabs.executeScript(tabId, {
-      code: 'var video = document.getElementsByTagName("video")[0];' +
-        'if (video.paused){video.play();} else {video.pause();}' +
-        'video.paused;'
-    }, function(result) {
-      if (callback) {
-        callback(result[0]);
-      }
-    });
-  }
-
   function videoControlClicked(event) {
     event.stopPropagation();
     var tabId = parseInt(this.parentNode.dataset.tabId);
-    controlVideo(tabId, function(paused) {
+    Util.toggleVideo(tabId, function(paused) {
       var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
         videoControl = videoListItem.querySelector("a");
 
@@ -103,8 +84,6 @@
 
   function videoItemClicked(event) {
     var tabId = parseInt(this.parentNode.dataset.tabId);
-    chrome.tabs.update(tabId, {
-      selected: true
-    });
+    Util.toggleTab(tabId, true);
   }
-})();
+})(Util);
