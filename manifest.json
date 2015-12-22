@@ -5,10 +5,10 @@
   "author": "Maroun Baydoun",
   "version": "0.6",
   "browser_action": {
-      "default_popup": "popup.html"
+    "default_popup": "popup.html"
   },
   "background": {
-    "page":"background.html",
+    "page": "background.html",
     "persistent": false
   },
   "icons": {
@@ -16,6 +16,22 @@
     "64": "icon-medium.png",
     "128": "icon-large.png",
     "256": "icon.png"
+  },
+  "permissions": ["tabs", "*://*.youtube.com/*"],
+  "commands": {
+    "toggle-video-1": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1"
+      },
+      "description": "Toggle first video",
+      "global": true
     },
-  "permissions":["tabs", "*://*.youtube.com/*"]
+    "toggle-video-2": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2"
+      },
+      "description": "Toggle second video",
+      "global": true
+    }
+  }
 }
