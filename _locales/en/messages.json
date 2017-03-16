@@ -1,0 +1,16 @@
+{
+  "appName": {
+    "message": "Youtube Controller",
+    "description": "Youtube Controller"
+  },
+  "appDesc": {
+    "message": "Control Youtube videos from any web page",
+    "description": "Control Youtube videos from any web page"
+  },
+  "noVideos": {
+    "message": "No videos are running"
+  },
+  "clickToGoToVideo": {
+    "message": "Click to go to video"
+  }
+}
