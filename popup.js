@@ -1,91 +1,98 @@
-(function(Util, chrome) {
-    Util.queryTabs(function(tabs) {
+$(document).ready(function() {
+    "use strict";
 
-        var notice = document.getElementById('notice'),
-            body = document.querySelector('body');
+    Util.queryTabs(onQueryTabs);
 
-        notice.innerHTML = chrome.i18n.getMessage("noVideos");
+    function onQueryTabs(tabs) {
 
-        if (tabs.length === 1) {
+        var notice = $("#notice");
 
-            var tabId = tabs[0].id;
-            Util.toggleVideo(tabId, function(paused) {
-                window.close();
-            });
+        notice.text(chrome.i18n.getMessage("noVideos"));
 
-        } else if (tabs.length > 0) {
-
-            body.removeChild(notice);
-
-            var videoList = document.getElementById('video-list'),
-                youtubeTitleEnding = "- YouTube",
-                youtubeTitleEndingLength = youtubeTitleEnding.length,
-                processedTabsCount = 0;
-
-
-            tabs.forEach(function(tab) {
-                var videoListItem = document.createElement("li"),
-                    videoListItemText = document.createElement("span"),
-                    videoControl = document.createElement("a"),
-                    tabId = tab.id,
-                    tabTitle = tab.title;
-
-
-                if (tabTitle.substring(tabTitle.length - youtubeTitleEndingLength, tabTitle.length) === youtubeTitleEnding) {
-                    tabTitle = tabTitle.substring(0, tabTitle.length - youtubeTitleEndingLength).trim();
-                }
-
-                Util.videoPaused(tabId, function(paused) {
-
-                    var videoControlClass = (paused === true) ? "fa-play" : "fa-pause";
-
-                    videoControl.classList.add("fa");
-                    videoControl.classList.add(videoControlClass);
-                    videoControl.addEventListener("click", videoControlClicked);
-                    videoListItemText.textContent = tabTitle;
-                    videoListItemText.title = chrome.i18n.getMessage("clickToGoToVideo");
-                    videoListItemText.addEventListener("click", videoItemClicked);
-                    videoListItem.appendChild(videoListItemText);
-                    videoListItem.appendChild(videoControl);
-                    videoListItem.dataset.tabId = tabId;
-                    videoList.appendChild(videoListItem);
-
-                    processedTabsCount++;
-
-                    if (processedTabsCount == tabs.length) {
-                        setTimeout(function() {
-                            videoList.classList.remove("hidden");
-                        }, 300);
-                    }
-                });
-
-            });
-
+        if (tabs.length === 0) {
+            noTabsReturned(notice);
+        } else if (tabs.length === 1) {
+            oneTabReturned(tabs[0]);
         } else {
-
-            notice.classList.remove("hidden");
+            notice.remove();
+            multipleTabsReturned(tabs);
         }
+    }
 
-    });
+    function noTabsReturned(notice) {
+        notice.removeClass("hidden");
+    }
 
-    function videoControlClicked(event) {
-        event.stopPropagation();
-        var tabId = parseInt(this.parentNode.dataset.tabId);
-        Util.toggleVideo(tabId, function(paused) {
-            var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
-                videoControl = videoListItem.querySelector("a");
+    function oneTabReturned(tab) {
+        Util.toggleVideo(tab.id, function(paused) {
+            window.close();
+        });
+    }
 
-            videoControlClassToAdd = paused ? "fa-play" : "fa-pause";
-            videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+    function multipleTabsReturned(tabs) {
+        var videoList = $("#video-list");
+        var processedTabsCount = 0;
 
-            videoControl.classList.add(videoControlClassToAdd);
-            videoControl.classList.remove(videoControlClassToRemove);
+        videoList.on("click", "span.title", videoTitleSpanClicked);
+        videoList.on("click", "a.play-back-control", videoPlayBackControlClicked);
+
+        tabs.forEach(function(tab) {
+            var videoListItem = $("<li></li>");
+            var videoTitleSpan = $("<span class='title'></span>");
+            var playBackControl = $("<a class='fa play-back-control'></a>");
+            var tabId = tab.id;
+            var tabTitle = processTabTitle(tab.title);
+
+            playBackControl.data("tabId", tabId);
+            videoTitleSpan.text(tabTitle);
+            videoTitleSpan.attr("title", chrome.i18n.getMessage("clickToGoToVideo"));
+            videoTitleSpan.data("tabId", tabId);
+            videoListItem.append(videoTitleSpan, playBackControl);
+            videoList.append(videoListItem);
+            videoList.data("tabId", tabId);
+
+            Util.getVideo(tabId, function(video) {
+
+                var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
+
+                playBackControl.addClass(playBackClass);
+
+                processedTabsCount++;
+
+                if (processedTabsCount == tabs.length) {
+                    setTimeout(function() {
+                        videoList.removeClass("hidden");
+                    }, 300);
+                }
+            });
 
         });
     }
 
-    function videoItemClicked(event) {
-        var tabId = parseInt(this.parentNode.dataset.tabId);
+    function processTabTitle(title) {
+        var youtubeTitleEnding = "- YouTube";
+        if (title.substring(title.length - youtubeTitleEnding.length, title.length) === youtubeTitleEnding) {
+            return title.substring(0, title.length - youtubeTitleEnding.length).trim();
+        }
+        return title;
+    }
+
+    function videoPlayBackControlClicked(event) {
+        event.stopPropagation();
+        var self = $(this);
+        var tabId = parseInt(self.data("tabId"));
+        Util.toggleVideo(tabId, function(paused) {
+            var classToAdd = paused ? "fa-play" : "fa-pause";
+            var classToRemove = classToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+
+            self.addClass(classToAdd);
+            self.removeClass(classToRemove);
+
+        });
+    }
+
+    function videoTitleSpanClicked() {
+        var tabId = parseInt($(this).data("tabId"));
         Util.toggleTab(tabId, true);
     }
-})(Util, chrome);
+});
