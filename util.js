@@ -12,7 +12,7 @@ var Util = (function(chrome) {
         },
         toggleVideo: function(tabId, callback) {
             chrome.tabs.executeScript(tabId, {
-                code: 'var video = document.getElementsByTagName("video")[0];' +
+                code: 'var video = document.querySelector("video");' +
                     'if (video.paused){video.play();} else {video.pause();}' +
                     'video.paused;'
             }, function(result) {
@@ -26,17 +26,18 @@ var Util = (function(chrome) {
                 selected: selected
             });
         },
-        videoPaused: function(tabId, callback) {
+        getVideo: function(tabId, callback) {
             chrome.tabs.executeScript(tabId, {
-                code: 'var video = document.getElementsByTagName("video")[0];' +
-                    'video.paused;'
+                code: 'var video = document.querySelector("video");' +
+                    'var result = {"paused":video.paused, "volume":video.volume, "muted": video.muted};' +
+                    'result;'
             }, function(result) {
-                var paused = true;
+                var video = undefined;
                 if (result && result.length > 0) {
-                    paused = result[0];
+                    video = result[0];
                 }
                 if (callback) {
-                    callback(paused);
+                    callback(video);
                 }
             });
         }

@@ -30,7 +30,7 @@
         });
     }
 
-    function multipleTabsReturned(tabs, videoList) {
+    function multipleTabsReturned(tabs) {
         var videoList = document.getElementById("video-list");
         var processedTabsCount = 0;
 
@@ -41,9 +41,9 @@
             var tabId = tab.id;
             var tabTitle = processTabTitle(tab.title);
 
-            Util.videoPaused(tabId, function(paused) {
+            Util.getVideo(tabId, function(video) {
 
-                var videoControlClass = (paused === true) ? "fa-play" : "fa-pause";
+                var videoControlClass = (video.paused === true) ? "fa-play" : "fa-pause";
 
                 videoControl.classList.add("fa");
                 videoControl.classList.add(videoControlClass);
