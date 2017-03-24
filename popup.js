@@ -1,27 +1,26 @@
-(function(Util, chrome) {
+$(document).ready(function() {
     "use strict";
 
     Util.queryTabs(onQueryTabs);
 
     function onQueryTabs(tabs) {
 
-        var notice = document.getElementById("notice");
-        var body = document.querySelector("body");
+        var notice = $("#notice");
 
-        notice.innerHTML = chrome.i18n.getMessage("noVideos");
+        notice.text(chrome.i18n.getMessage("noVideos"));
 
         if (tabs.length === 0) {
             noTabsReturned(notice);
         } else if (tabs.length === 1) {
             oneTabReturned(tabs[0]);
         } else {
-            body.removeChild(notice);
+            notice.remove();
             multipleTabsReturned(tabs);
         }
     }
 
     function noTabsReturned(notice) {
-        notice.classList.remove("hidden");
+        notice.removeClass("hidden");
     }
 
     function oneTabReturned(tab) {
@@ -31,36 +30,38 @@
     }
 
     function multipleTabsReturned(tabs) {
-        var videoList = document.getElementById("video-list");
+        var videoList = $("#video-list");
         var processedTabsCount = 0;
 
+        videoList.on("click", "span.title", videoTitleSpanClicked);
+        videoList.on("click", "a.play-back-control", videoPlayBackControlClicked);
+
         tabs.forEach(function(tab) {
-            var videoListItem = document.createElement("li");
-            var videoListItemText = document.createElement("span");
-            var videoControl = document.createElement("a");
+            var videoListItem = $("<li></li>");
+            var videoTitleSpan = $("<span class='title'></span>");
+            var playBackControl = $("<a class='fa play-back-control'></a>");
             var tabId = tab.id;
             var tabTitle = processTabTitle(tab.title);
 
+            playBackControl.data("tabId", tabId);
+            videoTitleSpan.text(tabTitle);
+            videoTitleSpan.attr("title", chrome.i18n.getMessage("clickToGoToVideo"));
+            videoTitleSpan.data("tabId", tabId);
+            videoListItem.append(videoTitleSpan, playBackControl);
+            videoList.append(videoListItem);
+            videoList.data("tabId", tabId);
+
             Util.getVideo(tabId, function(video) {
 
-                var videoControlClass = (video.paused === true) ? "fa-play" : "fa-pause";
+                var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
 
-                videoControl.classList.add("fa");
-                videoControl.classList.add(videoControlClass);
-                videoControl.addEventListener("click", videoControlClicked);
-                videoListItemText.textContent = tabTitle;
-                videoListItemText.title = chrome.i18n.getMessage("clickToGoToVideo");
-                videoListItemText.addEventListener("click", videoItemClicked);
-                videoListItem.appendChild(videoListItemText);
-                videoListItem.appendChild(videoControl);
-                videoListItem.dataset.tabId = tabId;
-                videoList.appendChild(videoListItem);
+                playBackControl.addClass(playBackClass);
 
                 processedTabsCount++;
 
                 if (processedTabsCount == tabs.length) {
                     setTimeout(function() {
-                        videoList.classList.remove("hidden");
+                        videoList.removeClass("hidden");
                     }, 300);
                 }
             });
@@ -76,23 +77,22 @@
         return title;
     }
 
-    function videoControlClicked(event) {
+    function videoPlayBackControlClicked(event) {
         event.stopPropagation();
-        var tabId = parseInt(this.parentNode.dataset.tabId);
+        var self = $(this);
+        var tabId = parseInt(self.data("tabId"));
         Util.toggleVideo(tabId, function(paused) {
-            var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]");
-            var videoControl = videoListItem.querySelector("a");
-            var videoControlClassToAdd = paused ? "fa-play" : "fa-pause";
-            var videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+            var classToAdd = paused ? "fa-play" : "fa-pause";
+            var classToRemove = classToAdd === "fa-pause" ? "fa-play" : "fa-pause";
 
-            videoControl.classList.add(videoControlClassToAdd);
-            videoControl.classList.remove(videoControlClassToRemove);
+            self.addClass(classToAdd);
+            self.removeClass(classToRemove);
 
         });
     }
 
-    function videoItemClicked(event) {
-        var tabId = parseInt(this.parentNode.dataset.tabId);
+    function videoTitleSpanClicked() {
+        var tabId = parseInt($(this).data("tabId"));
         Util.toggleTab(tabId, true);
     }
-})(Util, chrome);
+});
