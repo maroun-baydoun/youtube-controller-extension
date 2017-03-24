@@ -1,82 +1,89 @@
 (function(Util, chrome) {
-    Util.queryTabs(function(tabs) {
+    "use strict";
 
-        var notice = document.getElementById('notice'),
-            body = document.querySelector('body');
+    Util.queryTabs(onQueryTabs);
+
+    function onQueryTabs(tabs) {
+
+        var notice = document.getElementById("notice");
+        var body = document.querySelector("body");
 
         notice.innerHTML = chrome.i18n.getMessage("noVideos");
 
-        if (tabs.length === 1) {
-
-            var tabId = tabs[0].id;
-            Util.toggleVideo(tabId, function(paused) {
-                window.close();
-            });
-
-        } else if (tabs.length > 0) {
-
-            body.removeChild(notice);
-
-            var videoList = document.getElementById('video-list'),
-                youtubeTitleEnding = "- YouTube",
-                youtubeTitleEndingLength = youtubeTitleEnding.length,
-                processedTabsCount = 0;
-
-
-            tabs.forEach(function(tab) {
-                var videoListItem = document.createElement("li"),
-                    videoListItemText = document.createElement("span"),
-                    videoControl = document.createElement("a"),
-                    tabId = tab.id,
-                    tabTitle = tab.title;
-
-
-                if (tabTitle.substring(tabTitle.length - youtubeTitleEndingLength, tabTitle.length) === youtubeTitleEnding) {
-                    tabTitle = tabTitle.substring(0, tabTitle.length - youtubeTitleEndingLength).trim();
-                }
-
-                Util.videoPaused(tabId, function(paused) {
-
-                    var videoControlClass = (paused === true) ? "fa-play" : "fa-pause";
-
-                    videoControl.classList.add("fa");
-                    videoControl.classList.add(videoControlClass);
-                    videoControl.addEventListener("click", videoControlClicked);
-                    videoListItemText.textContent = tabTitle;
-                    videoListItemText.title = chrome.i18n.getMessage("clickToGoToVideo");
-                    videoListItemText.addEventListener("click", videoItemClicked);
-                    videoListItem.appendChild(videoListItemText);
-                    videoListItem.appendChild(videoControl);
-                    videoListItem.dataset.tabId = tabId;
-                    videoList.appendChild(videoListItem);
-
-                    processedTabsCount++;
-
-                    if (processedTabsCount == tabs.length) {
-                        setTimeout(function() {
-                            videoList.classList.remove("hidden");
-                        }, 300);
-                    }
-                });
-
-            });
-
+        if (tabs.length === 0) {
+            noTabsReturned(notice);
+        } else if (tabs.length === 1) {
+            oneTabReturned(tabs[0]);
         } else {
-
-            notice.classList.remove("hidden");
+            body.removeChild(notice);
+            multipleTabsReturned(tabs);
         }
+    }
 
-    });
+    function noTabsReturned(notice) {
+        notice.classList.remove("hidden");
+    }
+
+    function oneTabReturned(tab) {
+        Util.toggleVideo(tab.id, function(paused) {
+            window.close();
+        });
+    }
+
+    function multipleTabsReturned(tabs) {
+        var videoList = document.getElementById("video-list");
+        var processedTabsCount = 0;
+
+        tabs.forEach(function(tab) {
+            var videoListItem = document.createElement("li");
+            var videoListItemText = document.createElement("span");
+            var videoControl = document.createElement("a");
+            var tabId = tab.id;
+            var tabTitle = processTabTitle(tab.title);
+
+            Util.getVideo(tabId, function(video) {
+
+                var videoControlClass = (video.paused === true) ? "fa-play" : "fa-pause";
+
+                videoControl.classList.add("fa");
+                videoControl.classList.add(videoControlClass);
+                videoControl.addEventListener("click", videoControlClicked);
+                videoListItemText.textContent = tabTitle;
+                videoListItemText.title = chrome.i18n.getMessage("clickToGoToVideo");
+                videoListItemText.addEventListener("click", videoItemClicked);
+                videoListItem.appendChild(videoListItemText);
+                videoListItem.appendChild(videoControl);
+                videoListItem.dataset.tabId = tabId;
+                videoList.appendChild(videoListItem);
+
+                processedTabsCount++;
+
+                if (processedTabsCount == tabs.length) {
+                    setTimeout(function() {
+                        videoList.classList.remove("hidden");
+                    }, 300);
+                }
+            });
+
+        });
+    }
+
+    function processTabTitle(title) {
+        var youtubeTitleEnding = "- YouTube";
+        if (title.substring(title.length - youtubeTitleEnding.length, title.length) === youtubeTitleEnding) {
+            return title.substring(0, title.length - youtubeTitleEnding.length).trim();
+        }
+        return title;
+    }
 
     function videoControlClicked(event) {
         event.stopPropagation();
         var tabId = parseInt(this.parentNode.dataset.tabId);
         Util.toggleVideo(tabId, function(paused) {
-            var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]"),
-                videoControl = videoListItem.querySelector("a");
-
-            videoControlClassToAdd = paused ? "fa-play" : "fa-pause";
-            videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+            var videoListItem = document.querySelector("li[data-tab-id=\"" + tabId + "\"]");
+            var videoControl = videoListItem.querySelector("a");
+            var videoControlClassToAdd = paused ? "fa-play" : "fa-pause";
+            var videoControlClassToRemove = videoControlClassToAdd === "fa-pause" ? "fa-play" : "fa-pause";
 
             videoControl.classList.add(videoControlClassToAdd);
             videoControl.classList.remove(videoControlClassToRemove);
