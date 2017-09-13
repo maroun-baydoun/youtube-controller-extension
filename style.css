@@ -17,10 +17,9 @@ ul {
 
 li {
     list-style: none;
-    padding: 10px;
     margin: 0;
     display: inline-block;
-    width: 280px;
+    width: 300px;
     border-bottom: 1px solid #eee;
     float: left;
     color: #666;
@@ -36,15 +35,24 @@ li span, li a {
     cursor: pointer;
 }
 
-li span {
-    width: 200px;
-    float: left;
-    padding: 5px 0;
+li span.title {
+    width: auto;
+    padding: 10px;
+}
+
+li span.title:hover {
+  text-decoration: underline;
+}
+
+li div.controls-container {
+  clear: both;
+  padding: 5px 10px;
+  height: 30px;
 }
 
 li a {
     border: 1px solid #ccc;
-    float: right;
+    float: left;
     padding: 3px 5px;
     margin: 5px 0 0 0;
     width: 10px;

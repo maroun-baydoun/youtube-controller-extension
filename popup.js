@@ -40,14 +40,16 @@ $(document).ready(function() {
             var videoListItem = $("<li></li>");
             var videoTitleSpan = $("<span class='title'></span>");
             var playBackControl = $("<a class='fa play-back-control'></a>");
+            var controls = $("<div class='controls-container'></div>");
             var tabId = tab.id;
             var tabTitle = processTabTitle(tab.title);
 
             playBackControl.data("tabId", tabId);
+            controls.append(playBackControl);
             videoTitleSpan.text(tabTitle);
             videoTitleSpan.attr("title", chrome.i18n.getMessage("clickToGoToVideo"));
             videoTitleSpan.data("tabId", tabId);
-            videoListItem.append(videoTitleSpan, playBackControl);
+            videoListItem.append(videoTitleSpan, controls);
             videoList.append(videoListItem);
             videoList.data("tabId", tabId);
 
