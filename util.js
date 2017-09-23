@@ -10,11 +10,22 @@ var Util = (function(chrome) {
                 }
             });
         },
-        toggleVideo: function(tabId, callback) {
+        toggleVideoPlayBack: function(tabId, callback) {
             chrome.tabs.executeScript(tabId, {
                 code: 'var video = document.querySelector("video");' +
                     'if (video.paused){video.play();} else {video.pause();}' +
                     'video.paused;'
+            }, function(result) {
+                if (callback) {
+                    callback(result[0]);
+                }
+            });
+        },
+        toggleVideoMute: function(tabId, callback) {
+            chrome.tabs.executeScript(tabId, {
+                code: 'var video = document.querySelector("video");' +
+                    'video.muted = !video.muted;' +
+                    'video.muted;'
             }, function(result) {
                 if (callback) {
                     callback(result[0]);

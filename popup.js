@@ -24,7 +24,7 @@ $(document).ready(function() {
     }
 
     function oneTabReturned(tab) {
-        Util.toggleVideo(tab.id, function(paused) {
+        Util.toggleVideoPlayBack(tab.id, function(paused) {
             window.close();
         });
     }
@@ -35,27 +35,34 @@ $(document).ready(function() {
 
         videoList.on("click", "span.title", videoTitleSpanClicked);
         videoList.on("click", "a.play-back-control", videoPlayBackControlClicked);
+        videoList.on("click", "a.mute-control", videoMuteControlClicked);
 
         tabs.forEach(function(tab) {
             var videoListItem = $("<li></li>");
             var videoTitleSpan = $("<span class='title'></span>");
-            var playBackControl = $("<a class='fa play-back-control'></a>");
+            var playBackControl = $("<a class='fa play-back-control control'></a>");
+            var muteControl = $("<a class='fa mute-control control'></a>");
+            var controls = $("<div class='controls-container'></div>");
             var tabId = tab.id;
             var tabTitle = processTabTitle(tab.title);
 
             playBackControl.data("tabId", tabId);
+            muteControl.data("tabId", tabId);
+            controls.append(playBackControl, muteControl);
             videoTitleSpan.text(tabTitle);
             videoTitleSpan.attr("title", chrome.i18n.getMessage("clickToGoToVideo"));
             videoTitleSpan.data("tabId", tabId);
-            videoListItem.append(videoTitleSpan, playBackControl);
+            videoListItem.append(videoTitleSpan, controls);
             videoList.append(videoListItem);
             videoList.data("tabId", tabId);
 
             Util.getVideo(tabId, function(video) {
 
                 var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
+                var mutedClass = getMutedClass(video.muted, video.volume);
 
                 playBackControl.addClass(playBackClass);
+                muteControl.addClass(mutedClass);
 
                 processedTabsCount++;
 
@@ -77,13 +84,39 @@ $(document).ready(function() {
         return title;
     }
 
+    function getMutedClass(muted, volume) {
+      if (muted === true || volume == 0) {
+        return "fa-volume-off";
+      }
+
+      if (volume < 0.5) {
+        return "fa-volume-down";
+      }
+
+      return "fa-volume-up";
+    }
+
     function videoPlayBackControlClicked(event) {
         event.stopPropagation();
         var self = $(this);
         var tabId = parseInt(self.data("tabId"));
-        Util.toggleVideo(tabId, function(paused) {
+        Util.toggleVideoPlayBack(tabId, function(paused) {
             var classToAdd = paused ? "fa-play" : "fa-pause";
             var classToRemove = classToAdd === "fa-pause" ? "fa-play" : "fa-pause";
+
+            self.addClass(classToAdd);
+            self.removeClass(classToRemove);
+
+        });
+    }
+
+    function videoMuteControlClicked(event) {
+        event.stopPropagation();
+        var self = $(this);
+        var tabId = parseInt(self.data("tabId"));
+        Util.toggleVideoMute(tabId, function(muted) {
+            var classToAdd = muted ? "fa-volume-off" : "fa-volume-up";
+            var classToRemove = classToAdd === "fa-volume-off" ? "fa-volume-up" : "fa-volume-off";
 
             self.addClass(classToAdd);
             self.removeClass(classToRemove);
