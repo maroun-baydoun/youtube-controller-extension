@@ -59,7 +59,7 @@ $(document).ready(function() {
             Util.getVideo(tabId, function(video) {
 
                 var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
-                var mutedClass = (video.muted === true) ? "fa-volume-off" : "fa-volume-up";
+                var mutedClass = getMutedClass(video.muted, video.volume);
 
                 playBackControl.addClass(playBackClass);
                 muteControl.addClass(mutedClass);
@@ -82,6 +82,18 @@ $(document).ready(function() {
             return title.substring(0, title.length - youtubeTitleEnding.length).trim();
         }
         return title;
+    }
+
+    function getMutedClass(muted, volume) {
+      if (muted === true || volume == 0) {
+        return "fa-volume-off";
+      }
+
+      if (volume < 0.5) {
+        return "fa-volume-down";
+      }
+
+      return "fa-volume-up";
     }
 
     function videoPlayBackControlClicked(event) {
