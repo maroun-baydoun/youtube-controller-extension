@@ -9,7 +9,7 @@
                 if (tabs && tabs.length > index)
                     var tab = tabs[index],
                         tabId = tab.id;
-                Util.toggleVideo(tabId);
+                Util.toggleVideoPlayBack(tabId);
             });
         }
     });

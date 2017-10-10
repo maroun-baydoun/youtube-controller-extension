@@ -1,1 +1,1 @@
-A Chrome extension that controls Youtube videos from any other web page you are visiting.
+A Chrome extension that controls Youtube videos from any other web page you are visiting, or even when Chrome is in the background. Get it [here](https://chrome.google.com/webstore/detail/poalplpedjpddipkghmlhkmgbcnmecop/).
