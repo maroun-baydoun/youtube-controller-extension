@@ -1,8 +1,7 @@
 {
-  "name": "chrome-extension-webpack",
-  "version": "0.0.1",
+  "name": "youtube-controller-extension",
+  "version": "0.0.10",
   "private": true,
-  "description": "A boilerplate to chrome extension with webpack",
   "scripts": {
     "build": "node utils/build.js",
     "start": "node utils/webserver.js"
