@@ -1,7 +1,11 @@
-$(document).ready(function() {
-    "use strict";
+import '../css/style.css';
+import './zepto.min.js';
 
-    Util.queryTabs(onQueryTabs);
+import { queryTabs, toggleVideoPlayBack, getVideo, toggleVideoMute, toggleTab } from './util';
+
+$(document).ready(function () {
+
+    queryTabs(onQueryTabs);
 
     function onQueryTabs(tabs) {
 
@@ -24,9 +28,8 @@ $(document).ready(function() {
     }
 
     function oneTabReturned(tab) {
-        Util.toggleVideoPlayBack(tab.id, function(paused) {
-            window.close();
-        });
+        window.close();
+        toggleVideoPlayBack(tab.id);
     }
 
     function multipleTabsReturned(tabs) {
@@ -37,7 +40,7 @@ $(document).ready(function() {
         videoList.on("click", "a.play-back-control", videoPlayBackControlClicked);
         videoList.on("click", "a.mute-control", videoMuteControlClicked);
 
-        tabs.forEach(function(tab) {
+        tabs.forEach(function (tab) {
             var videoListItem = $("<li></li>");
             var videoTitleSpan = $("<span class='title'></span>");
             var playBackControl = $("<a class='fa play-back-control control'></a>");
@@ -56,7 +59,7 @@ $(document).ready(function() {
             videoList.append(videoListItem);
             videoList.data("tabId", tabId);
 
-            Util.getVideo(tabId, function(video) {
+            getVideo(tabId, function (video) {
 
                 var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
                 var mutedClass = getMutedClass(video.muted, video.volume);
@@ -67,7 +70,7 @@ $(document).ready(function() {
                 processedTabsCount++;
 
                 if (processedTabsCount == tabs.length) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         videoList.removeClass("hidden");
                     }, 300);
                 }
@@ -85,22 +88,22 @@ $(document).ready(function() {
     }
 
     function getMutedClass(muted, volume) {
-      if (muted === true || volume == 0) {
-        return "fa-volume-off";
-      }
+        if (muted === true || volume == 0) {
+            return "fa-volume-off";
+        }
 
-      if (volume < 0.5) {
-        return "fa-volume-down";
-      }
+        if (volume < 0.5) {
+            return "fa-volume-down";
+        }
 
-      return "fa-volume-up";
+        return "fa-volume-up";
     }
 
     function videoPlayBackControlClicked(event) {
         event.stopPropagation();
         var self = $(this);
         var tabId = parseInt(self.data("tabId"));
-        Util.toggleVideoPlayBack(tabId, function(paused) {
+        toggleVideoPlayBack(tabId, function (paused) {
             var classToAdd = paused ? "fa-play" : "fa-pause";
             var classToRemove = classToAdd === "fa-pause" ? "fa-play" : "fa-pause";
 
@@ -114,7 +117,7 @@ $(document).ready(function() {
         event.stopPropagation();
         var self = $(this);
         var tabId = parseInt(self.data("tabId"));
-        Util.toggleVideoMute(tabId, function(muted) {
+        toggleVideoMute(tabId, function (muted) {
             var classToAdd = muted ? "fa-volume-off" : "fa-volume-up";
             var classToRemove = classToAdd === "fa-volume-off" ? "fa-volume-up" : "fa-volume-off";
 
@@ -126,6 +129,6 @@ $(document).ready(function() {
 
     function videoTitleSpanClicked() {
         var tabId = parseInt($(this).data("tabId"));
-        Util.toggleTab(tabId, true);
+        toggleTab(tabId, true);
     }
 });
