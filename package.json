@@ -11,6 +11,7 @@
     "@babel/preset-env": "7.3.1",
     "@types/chrome": "0.0.80",
     "babel-loader": "8.0.5",
+    "babel-plugin-transform-react-jsx": "6.24.1",
     "clean-webpack-plugin": "1.0.1",
     "copy-webpack-plugin": "4.6.0",
     "css-loader": "2.1.0",
@@ -23,5 +24,8 @@
     "webpack-cli": "3.2.3",
     "webpack-dev-server": "3.1.14",
     "write-file-webpack-plugin": "4.5.0"
+  },
+  "dependencies": {
+    "hyperapp": "1.2.9"
   }
 }

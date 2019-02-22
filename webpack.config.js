@@ -7,7 +7,6 @@ const webpack = require("webpack"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   WriteFilePlugin = require("write-file-webpack-plugin");
 
-// load the secrets
 const alias = {};
 
 const secretsPath = path.join(__dirname, ("secrets." + env.NODE_ENV + ".js"));
@@ -22,7 +21,7 @@ const options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     popup: path.join(__dirname, "src", "js", "popup.js"),
-    background: path.join(__dirname, "src", "js", "background.js")
+    background: path.join(__dirname, "src", "js", "background.js"),
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -56,15 +55,17 @@ const options = {
     alias: alias
   },
   plugins: [
-    // clean the build folder
     new CleanWebpackPlugin(["build"]),
-    // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new CopyWebpackPlugin([{
       from: "src/manifest.json"
     }]),
     new CopyWebpackPlugin([{
       from: "src/icons"
+    }]),
+    new CopyWebpackPlugin([{
+      from: "src/js/video",
+      to: "./video",
     }]),
     new CopyWebpackPlugin([{
       from: "./_locales",

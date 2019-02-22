@@ -1,134 +1,107 @@
-import '../css/style.css';
-import './zepto.min.js';
+import { h, app } from "hyperapp"
+import { queryTabs, getVideo, toggleVideoPlayback, toggleVideoMuted, toggleTab, processTabTitle, playbackClass, mutedClass } from "./util";
 
-import { queryTabs, toggleVideoPlayBack, getVideo, toggleVideoMute, toggleTab } from './util';
+import "../css/style.css";
 
-$(document).ready(function () {
+const state = {
+  tabs: [],
+  videos: {},
+};
 
-    queryTabs(onQueryTabs);
-
-    function onQueryTabs(tabs) {
-
-        var notice = $("#notice");
-
-        notice.text(chrome.i18n.getMessage("noVideos"));
-
-        if (tabs.length === 0) {
-            noTabsReturned(notice);
-        } else if (tabs.length === 1) {
-            oneTabReturned(tabs[0]);
-        } else {
-            notice.remove();
-            multipleTabsReturned(tabs);
-        }
-    }
-
-    function noTabsReturned(notice) {
-        notice.removeClass("hidden");
-    }
-
-    function oneTabReturned(tab) {
+const actions = {
+  queryTabs: () =>  (state, actions) => {
+    queryTabs(tabs => {
+      if(tabs.length === 1) {
         window.close();
-        toggleVideoPlayBack(tab.id);
+        toggleVideoPlayback(tabs[0].id);
+      }
+      actions.setTabs(tabs);
+      tabs.forEach(tab => actions.getVideo(tab.id));
+    });
+  },
+  setTabs: tabs => state => ({...state, tabs }),
+  getVideo: (tabId) =>  (state, actions) => {
+    getVideo(tabId, (video) => {
+      actions.addVideo({tabId, video});
+    });
+  },
+  addVideo: ({tabId, video}) => state => ({...state, videos: {...state.videos, [tabId]: video} }),
+  toggleVideoPlayback: tabId => (state, actions) => {
+    toggleVideoPlayback(tabId, (paused) => {
+      actions.setVideoPaused({tabId, paused});
+    })
+  },
+  setVideoPaused : ({tabId, paused}) => state => ({...state, videos: {...state.videos, [tabId]: {
+    ...state.videos[tabId],
+    paused,
+  }}}),
+  toggleVideoMuted: tabId => (state, actions) => {
+    toggleVideoMuted(tabId, (muted) => {
+      actions.setVideoMuted({tabId, muted});
+    })
+  },
+  setVideoMuted : ({tabId, muted}) => state => ({...state, videos: {...state.videos, [tabId]: {
+    ...state.videos[tabId],
+    muted,
+  }}}),
+  toggleTab: tabId => () => {
+    toggleTab(tabId)
+  }
+}
+
+const view = ({tabs, videos}, actions) => (
+  <div>
+    {tabs.length === 0 
+      && 
+      <div id="notice">
+        {chrome.i18n.getMessage("noVideos")}
+      </div>
     }
-
-    function multipleTabsReturned(tabs) {
-        var videoList = $("#video-list");
-        var processedTabsCount = 0;
-
-        videoList.on("click", "span.title", videoTitleSpanClicked);
-        videoList.on("click", "a.play-back-control", videoPlayBackControlClicked);
-        videoList.on("click", "a.mute-control", videoMuteControlClicked);
-
-        tabs.forEach(function (tab) {
-            var videoListItem = $("<li></li>");
-            var videoTitleSpan = $("<span class='title'></span>");
-            var playBackControl = $("<a class='fa play-back-control control'></a>");
-            var muteControl = $("<a class='fa mute-control control'></a>");
-            var controls = $("<div class='controls-container'></div>");
-            var tabId = tab.id;
-            var tabTitle = processTabTitle(tab.title);
-
-            playBackControl.data("tabId", tabId);
-            muteControl.data("tabId", tabId);
-            controls.append(playBackControl, muteControl);
-            videoTitleSpan.text(tabTitle);
-            videoTitleSpan.attr("title", chrome.i18n.getMessage("clickToGoToVideo"));
-            videoTitleSpan.data("tabId", tabId);
-            videoListItem.append(videoTitleSpan, controls);
-            videoList.append(videoListItem);
-            videoList.data("tabId", tabId);
-
-            getVideo(tabId, function (video) {
-
-                var playBackClass = (video.paused === true) ? "fa-play" : "fa-pause";
-                var mutedClass = getMutedClass(video.muted, video.volume);
-
-                playBackControl.addClass(playBackClass);
-                muteControl.addClass(mutedClass);
-
-                processedTabsCount++;
-
-                if (processedTabsCount == tabs.length) {
-                    setTimeout(function () {
-                        videoList.removeClass("hidden");
-                    }, 300);
-                }
-            });
-
-        });
+    {tabs.length === 1
+      && null
     }
-
-    function processTabTitle(title) {
-        var youtubeTitleEnding = "- YouTube";
-        if (title.substring(title.length - youtubeTitleEnding.length, title.length) === youtubeTitleEnding) {
-            return title.substring(0, title.length - youtubeTitleEnding.length).trim();
+    {tabs.length > 1
+      && 
+      <ul id="video-list">
+        {
+          tabs.map(tab => (
+            <VideoListItem 
+              tab={tab} 
+              video={videos[tab.id]} 
+              onPlaybackToggle={actions.toggleVideoPlayback}
+              onMutedToggle={actions.toggleVideoMuted}
+              onTabToggle={actions.toggleTab}
+            />
+          ))
         }
-        return title;
+      </ul>
     }
+  </div>
+);
 
-    function getMutedClass(muted, volume) {
-        if (muted === true || volume == 0) {
-            return "fa-volume-off";
-        }
 
-        if (volume < 0.5) {
-            return "fa-volume-down";
-        }
+const VideoListItem = ({tab, video, onPlaybackToggle, onMutedToggle, onTabToggle}) => (
+    <li key={tab.id} title={video}>
+      <span
+        className="title"
+        onclick={() => onTabToggle(tab.id)}
+      >
+        {processTabTitle(tab.title)}
+      </span>
+      <div className="controls-container">
+        <a 
+          className={["fa play-back-control control", playbackClass(video)].join(" ")} 
+          onclick={() => onPlaybackToggle(tab.id)}
+        >
+        </a>
+        <a 
+          className={["fa mute-control control", mutedClass(video ? video.muted : false, video ?video.volume: 0)].join(" ")}
+          onclick={() => onMutedToggle(tab.id)}
+          ></a>
+      </div>
+    </li>
+);
 
-        return "fa-volume-up";
-    }
+const main = app(state, actions, view, document.body);
 
-    function videoPlayBackControlClicked(event) {
-        event.stopPropagation();
-        var self = $(this);
-        var tabId = parseInt(self.data("tabId"));
-        toggleVideoPlayBack(tabId, function (paused) {
-            var classToAdd = paused ? "fa-play" : "fa-pause";
-            var classToRemove = classToAdd === "fa-pause" ? "fa-play" : "fa-pause";
-
-            self.addClass(classToAdd);
-            self.removeClass(classToRemove);
-
-        });
-    }
-
-    function videoMuteControlClicked(event) {
-        event.stopPropagation();
-        var self = $(this);
-        var tabId = parseInt(self.data("tabId"));
-        toggleVideoMute(tabId, function (muted) {
-            var classToAdd = muted ? "fa-volume-off" : "fa-volume-up";
-            var classToRemove = classToAdd === "fa-volume-off" ? "fa-volume-up" : "fa-volume-off";
-
-            self.addClass(classToAdd);
-            self.removeClass(classToRemove);
-
-        });
-    }
-
-    function videoTitleSpanClicked() {
-        var tabId = parseInt($(this).data("tabId"));
-        toggleTab(tabId, true);
-    }
-});
+main.queryTabs();
