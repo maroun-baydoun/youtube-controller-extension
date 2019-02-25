@@ -1,7 +1,16 @@
 import { h, app } from "hyperapp"
-import { queryTabs, getVideo, toggleVideoPlayback, toggleVideoMuted, toggleTab, processTabTitle, playbackClass, mutedClass } from "./util";
+import { 
+  queryTabs, 
+  getVideo, 
+  toggleVideoPlayback, 
+  toggleVideoMuted, 
+  toggleTab, 
+  processTabTitle, 
+  playbackClass, 
+  mutedClass,
+ } from "./util";
 
-import "../css/style.css";
+import "../style/style.scss";
 
 const state = {
   tabs: [],
@@ -50,10 +59,10 @@ const actions = {
 }
 
 const view = ({tabs, videos}, actions) => (
-  <div>
+  <main>
     {tabs.length === 0 
       && 
-      <div id="notice">
+      <div className="notice">
         {chrome.i18n.getMessage("noVideos")}
       </div>
     }
@@ -62,10 +71,11 @@ const view = ({tabs, videos}, actions) => (
     }
     {tabs.length > 1
       && 
-      <ul id="video-list">
+      <div>
         {
           tabs.map(tab => (
             <VideoListItem 
+              key={tab.id}
               tab={tab} 
               video={videos[tab.id]} 
               onPlaybackToggle={actions.toggleVideoPlayback}
@@ -74,32 +84,41 @@ const view = ({tabs, videos}, actions) => (
             />
           ))
         }
-      </ul>
+      </div>
     }
-  </div>
+  </main>
 );
 
 
 const VideoListItem = ({tab, video, onPlaybackToggle, onMutedToggle, onTabToggle}) => (
-    <li key={tab.id} title={video}>
-      <span
-        className="title"
-        onclick={() => onTabToggle(tab.id)}
-      >
-        {processTabTitle(tab.title)}
-      </span>
-      <div className="controls-container">
-        <a 
-          className={["fa play-back-control control", playbackClass(video)].join(" ")} 
+    <article 
+      key={tab.id} 
+      className="video-card" 
+    >
+      <section className="video-card__header">
+        <a
+          href={tab.url}
+          title={chrome.i18n.getMessage("clickToGoToVideo")}
+          onclick={() => onTabToggle(tab.id)}
+        >
+          {processTabTitle(tab.title)}
+        </a>
+      </section>
+      <section className="video-card__actions">
+        <button 
+          type="button"
           onclick={() => onPlaybackToggle(tab.id)}
         >
-        </a>
-        <a 
-          className={["fa mute-control control", mutedClass(video ? video.muted : false, video ?video.volume: 0)].join(" ")}
+          <i className={["fa", playbackClass(video)].join(" ")}></i>
+        </button>
+        <button
+          type="button"
           onclick={() => onMutedToggle(tab.id)}
-          ></a>
-      </div>
-    </li>
+          >
+            <i className={["fa", mutedClass(video ? video.muted : false, video ?video.volume: 0)].join(" ")}></i>
+          </button>
+      </section>
+    </article>
 );
 
 const main = app(state, actions, view, document.body);

@@ -30,8 +30,12 @@ const options = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        loader: "style-loader!css-loader",
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader"
+        ],
         exclude: /node_modules/
       },
       {
@@ -61,10 +65,10 @@ const options = {
       from: "src/manifest.json"
     }]),
     new CopyWebpackPlugin([{
-      from: "src/icons"
+      from: "./src/icons"
     }]),
     new CopyWebpackPlugin([{
-      from: "src/js/video",
+      from: "./src/js/video",
       to: "./video",
     }]),
     new CopyWebpackPlugin([{
