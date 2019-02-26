@@ -21,7 +21,7 @@ export const toggleVideoPlayback = (tabId, callback) => {
     chrome.tabs.executeScript(tabId, {
         file: '/video/togglePlayback.js',
     }, (result) => {
-        if (result && result.length > 0) {
+        if (callback && result && result.length > 0) {
             callback(result[0]);
         }
     });
