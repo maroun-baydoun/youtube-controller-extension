@@ -126,20 +126,24 @@ const VideoListItem = ({
         {processTabTitle(tab.title)}
       </a>
     </section>
+    {video && (
     <section className="video-card__actions">
       <button
         type="button"
+        title={chrome.i18n.getMessage(video.paused ? 'play' : 'pause')}
         onclick={() => onPlaybackToggle(tab.id)}
       >
         <i className={['fa', playbackClass(video)].join(' ')} />
       </button>
       <button
         type="button"
+        title={chrome.i18n.getMessage(video.muted ? 'Unmute' : 'Mute')}
         onclick={() => onMutedToggle(tab.id)}
       >
         <i className={['fa', mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(' ')} />
       </button>
     </section>
+    )}
   </article>
 );
 

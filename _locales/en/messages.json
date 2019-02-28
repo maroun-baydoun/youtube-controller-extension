@@ -12,5 +12,17 @@
   },
   "clickToGoToVideo": {
     "message": "Click to go to video"
+  },
+  "play": {
+    "message": "Play"
+  },
+  "pause": {
+    "message": "Pause"
+  },
+  "mute": {
+    "message": "Mute"
+  },
+  "unmute": {
+    "message": "Unmute"
   }
 }
