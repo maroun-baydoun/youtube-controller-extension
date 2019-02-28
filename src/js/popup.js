@@ -1,16 +1,16 @@
-import { h, app } from "hyperapp"
-import { 
-  queryTabs, 
-  getVideo, 
-  toggleVideoPlayback, 
-  toggleVideoMuted, 
-  toggleTab, 
-  processTabTitle, 
-  playbackClass, 
+import { h, app } from 'hyperapp';
+import {
+  queryTabs,
+  getVideo,
+  toggleVideoPlayback,
+  toggleVideoMuted,
+  toggleTab,
+  processTabTitle,
+  playbackClass,
   mutedClass,
- } from "./util";
+} from './util';
 
-import "../style/style.scss";
+import '../style/style.scss';
 
 const state = {
   tabs: [],
@@ -18,107 +18,129 @@ const state = {
 };
 
 const actions = {
-  queryTabs: () =>  (state, actions) => {
-    queryTabs(tabs => {
-      if(tabs.length === 1) {
+  queryTabs: () => (_, appActions) => {
+    queryTabs((tabs) => {
+      if (tabs.length === 1) {
         window.close();
         toggleVideoPlayback(tabs[0].id);
       }
-      actions.setTabs(tabs);
-      tabs.forEach(tab => actions.getVideo(tab.id));
+      appActions.setTabs(tabs);
+      tabs.forEach(tab => appActions.getVideo(tab.id));
     });
   },
-  setTabs: tabs => state => ({...state, tabs }),
-  getVideo: (tabId) =>  (state, actions) => {
+  setTabs: tabs => appState => ({ ...appState, tabs }),
+  getVideo: tabId => (_, appActions) => {
     getVideo(tabId, (video) => {
-      actions.addVideo({tabId, video});
+      appActions.addVideo({ tabId, video });
     });
   },
-  addVideo: ({tabId, video}) => state => ({...state, videos: {...state.videos, [tabId]: video} }),
-  toggleVideoPlayback: tabId => (state, actions) => {
+  addVideo: ({ tabId, video }) => appState => ({
+    ...appState,
+    videos: {
+      ...appState.videos,
+      [tabId]: video,
+    },
+  }),
+  toggleVideoPlayback: tabId => (_, appActions) => {
     toggleVideoPlayback(tabId, (paused) => {
-      actions.setVideoPaused({tabId, paused});
-    })
+      appActions.setVideoPaused({ tabId, paused });
+    });
   },
-  setVideoPaused : ({tabId, paused}) => state => ({...state, videos: {...state.videos, [tabId]: {
-    ...state.videos[tabId],
-    paused,
-  }}}),
-  toggleVideoMuted: tabId => (state, actions) => {
+  setVideoPaused: ({ tabId, paused }) => appState => ({
+    ...appState,
+    videos: {
+      ...appState.videos,
+      [tabId]: {
+        ...appState.videos[tabId],
+        paused,
+      },
+    },
+  }),
+  toggleVideoMuted: tabId => (_, appActions) => {
     toggleVideoMuted(tabId, (muted) => {
-      actions.setVideoMuted({tabId, muted});
-    })
+      appActions.setVideoMuted({ tabId, muted });
+    });
   },
-  setVideoMuted : ({tabId, muted}) => state => ({...state, videos: {...state.videos, [tabId]: {
-    ...state.videos[tabId],
-    muted,
-  }}}),
+  setVideoMuted: ({ tabId, muted }) => appState => ({
+    ...appState,
+    videos: {
+      ...appState.videos,
+      [tabId]: {
+        ...appState.videos[tabId],
+        muted,
+      },
+    },
+  }),
   toggleTab: tabId => () => {
-    toggleTab(tabId)
-  }
-}
+    toggleTab(tabId);
+  },
+};
 
-const view = ({tabs, videos}, actions) => (
+const view = ({ tabs, videos }, appActions) => (
   <main>
-    {tabs.length === 0 
-      && 
+    {tabs.length === 0
+      && (
       <div className="notice">
-        {chrome.i18n.getMessage("noVideos")}
+        {chrome.i18n.getMessage('noVideos')}
       </div>
+      )
     }
     {tabs.length === 1
       && null
     }
     {tabs.length > 1
-      && 
+      && (
       <div>
         {
           tabs.map(tab => (
-            <VideoListItem 
+            <VideoListItem
               key={tab.id}
-              tab={tab} 
-              video={videos[tab.id]} 
-              onPlaybackToggle={actions.toggleVideoPlayback}
-              onMutedToggle={actions.toggleVideoMuted}
-              onTabToggle={actions.toggleTab}
+              tab={tab}
+              video={videos[tab.id]}
+              onPlaybackToggle={appActions.toggleVideoPlayback}
+              onMutedToggle={appActions.toggleVideoMuted}
+              onTabToggle={appActions.toggleTab}
             />
           ))
         }
       </div>
+      )
     }
   </main>
 );
 
 
-const VideoListItem = ({tab, video, onPlaybackToggle, onMutedToggle, onTabToggle}) => (
-    <article 
-      key={tab.id} 
-      className="video-card" 
-    >
-      <section className="video-card__header">
-        <a
-          href={tab.url}
-          title={chrome.i18n.getMessage("clickToGoToVideo")}
-          onclick={() => onTabToggle(tab.id)}
-        >
-          {processTabTitle(tab.title)}
-        </a>
-      </section>
-      <section className="video-card__actions">
-        <button 
-          type="button"
-          onclick={() => onPlaybackToggle(tab.id)}
-        >
-          <i className={["fa", playbackClass(video)].join(" ")}></i>
-        </button>
-        <button
-          type="button"
-          onclick={() => onMutedToggle(tab.id)}
-          >
-            <i className={["fa", mutedClass(video ? video.muted : false, video ?video.volume: 0)].join(" ")}></i>
-          </button>
-      </section>
-    </article>
+const VideoListItem = ({
+  tab, video, onPlaybackToggle, onMutedToggle, onTabToggle,
+}) => (
+  <article
+    key={tab.id}
+    className="video-card"
+  >
+    <section className="video-card__header">
+      <a
+        href={tab.url}
+        title={chrome.i18n.getMessage('clickToGoToVideo')}
+        onclick={() => onTabToggle(tab.id)}
+      >
+        {processTabTitle(tab.title)}
+      </a>
+    </section>
+    <section className="video-card__actions">
+      <button
+        type="button"
+        onclick={() => onPlaybackToggle(tab.id)}
+      >
+        <i className={['fa', playbackClass(video)].join(' ')} />
+      </button>
+      <button
+        type="button"
+        onclick={() => onMutedToggle(tab.id)}
+      >
+        <i className={['fa', mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(' ')} />
+      </button>
+    </section>
+  </article>
 );
 
 const main = app(state, actions, view, document.body);

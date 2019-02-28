@@ -14,7 +14,7 @@ chrome.commands.onCommand.addListener((command) => {
     return;
   }
 
-  const tabIndex = parseInt(commandIndex) - 1;
+  const tabIndex = parseInt(commandIndex, 10) - 1;
 
   queryTabs((tabs) => {
     if (tabs && tabs.length > tabIndex) {
@@ -22,4 +22,3 @@ chrome.commands.onCommand.addListener((command) => {
     }
   });
 });
-

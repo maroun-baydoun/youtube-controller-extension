@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "node utils/build.js",
-    "start": "node utils/webserver.js"
+    "start": "node utils/webserver.js",
+    "lint": "eslint ./src --fix"
   },
   "devDependencies": {
     "@babel/core": "7.3.3",
@@ -15,6 +16,11 @@
     "clean-webpack-plugin": "1.0.1",
     "copy-webpack-plugin": "4.6.0",
     "css-loader": "2.1.0",
+    "eslint": "5.14.1",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.16.0",
+    "eslint-plugin-jsx-a11y": "6.2.1",
+    "eslint-plugin-react": "7.12.4",
     "file-loader": "3.0.1",
     "fs-extra": "7.0.1",
     "html-loader": "0.5.5",
