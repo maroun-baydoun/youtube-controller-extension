@@ -1,4 +1,4 @@
-$min-width: 300px;
+$width: 300px;
 $padding-unit: 8px;
 
 $font-family: 'Open Sans', sans-serif;
@@ -20,7 +20,7 @@ html, body {
 }
 
 body {
-    min-width: $min-width;
+    width: $width;
     font-family: $font-family;
     font-size: $font-size;
     background-color: $main-background;
