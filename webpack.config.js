@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const fileSystem = require('fs');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
@@ -59,8 +59,10 @@ const options = {
     alias,
   },
   plugins: [
-    new CleanWebpackPlugin(['build']),
-    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    }),
     new CopyWebpackPlugin([{
       from: 'src/manifest.json',
     }]),
