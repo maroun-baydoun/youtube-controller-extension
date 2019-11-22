@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useCallback, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
-import VideoList from './components/VideoList';
+import VideoList from "./components/VideoList";
 
-import * as Util from './util';
+import * as Util from "./util";
 
-import '../style/style.scss';
+import "../style/style.scss";
 
 const App = () => {
   const [tabs, setTabs] = useState([]);
@@ -48,4 +48,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.querySelector('main'));
+ReactDOM.render(<App />, document.querySelector("main"));

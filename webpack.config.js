@@ -1,34 +1,34 @@
-const webpack = require('webpack');
-const path = require('path');
-const fileSystem = require('fs');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
-const env = require('./utils/env');
+const webpack = require("webpack");
+const path = require("path");
+const fileSystem = require("fs");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WriteFilePlugin = require("write-file-webpack-plugin");
+const env = require("./utils/env");
 
 const alias = {};
 
 const secretsPath = path.join(__dirname, (`secrets.${env.NODE_ENV}.js`));
 
-const fileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'eot', 'otf', 'svg', 'ttf', 'woff', 'woff2'];
+const fileExtensions = ["jpg", "jpeg", "png", "gif", "eot", "otf", "svg", "ttf", "woff", "woff2"];
 
-const devMode = env.NODE_ENV === 'development';
+const devMode = env.NODE_ENV === "development";
 
 if (fileSystem.existsSync(secretsPath)) {
   alias.secrets = secretsPath;
 }
 
 const options = {
-  mode: process.env.NODE_ENV || 'development',
+  mode: process.env.NODE_ENV || "development",
   entry: {
-    popup: path.join(__dirname, 'src', 'js', 'popup.js'),
-    background: path.join(__dirname, 'src', 'js', 'background.js'),
+    popup: path.join(__dirname, "src", "js", "popup.js"),
+    background: path.join(__dirname, "src", "js", "background.js"),
   },
   output: {
-    path: path.join(__dirname, 'build'),
-    filename: '[name].bundle.js',
+    path: path.join(__dirname, "build"),
+    filename: "[name].bundle.js",
   },
   module: {
     rules: [
@@ -38,25 +38,25 @@ const options = {
           ...(!devMode ? [{
             loader: MiniCssExtractPlugin.loader,
           }] : []),
-          ...(devMode ? ['style-loader'] : []),
-          'css-loader',
-          'sass-loader',
+          ...(devMode ? ["style-loader"] : []),
+          "css-loader",
+          "sass-loader",
         ],
         exclude: /node_modules/,
       },
       {
-        test: new RegExp(`\.(${fileExtensions.join('|')})$`),
-        loader: 'file-loader?name=[name].[ext]',
+        test: new RegExp(`\.(${fileExtensions.join("|")})$`),
+        loader: "file-loader?name=[name].[ext]",
         exclude: /node_modules/,
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        loader: "html-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/,
       },
     ],
@@ -67,10 +67,10 @@ const options = {
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
+      NODE_ENV: "development",
     }),
     new CopyWebpackPlugin([{
-      from: 'src/manifest.json',
+      from: "src/manifest.json",
       transform: (content) => {
         if (!devMode) {
           return content;
@@ -80,37 +80,37 @@ const options = {
       },
     }]),
     new CopyWebpackPlugin([{
-      from: './src/icons',
+      from: "./src/icons",
     }]),
     new CopyWebpackPlugin([{
-      from: './src/js/video',
-      to: './video',
+      from: "./src/js/video",
+      to: "./video",
     }]),
     new CopyWebpackPlugin([{
-      from: './_locales',
-      to: './_locales',
+      from: "./_locales",
+      to: "./_locales",
     }]),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'popup.html'),
-      filename: 'popup.html',
-      chunks: ['popup'],
+      template: path.join(__dirname, "src", "popup.html"),
+      filename: "popup.html",
+      chunks: ["popup"],
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'background.html'),
-      filename: 'background.html',
-      chunks: ['background'],
+      template: path.join(__dirname, "src", "background.html"),
+      filename: "background.html",
+      chunks: ["background"],
     }),
     new WriteFilePlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: "[name].css",
+      chunkFilename: "[id].css",
       ignoreOrder: false,
     }),
   ],
 };
 
 if (devMode) {
-  options.devtool = 'cheap-module-eval-source-map';
+  options.devtool = "cheap-module-eval-source-map";
 }
 
 module.exports = options;

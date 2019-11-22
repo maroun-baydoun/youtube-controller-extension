@@ -1,5 +1,5 @@
 (() => {
-  const video = document.querySelector('video');
+  const video = document.querySelector("video");
   video.muted = !video.muted;
   return video.muted;
 })();

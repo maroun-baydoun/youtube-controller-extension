@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 
-import VideCard from './VideoCard';
+import VideCard from "./VideoCard";
 
 const VideoList = ({
   tabs, videos, toggleVideoPlayback, toggleVideoMuted, toggleTab,
@@ -8,7 +8,7 @@ const VideoList = ({
   if (tabs.length === 0) {
     return (
       <div className="notice">
-        {chrome.i18n.getMessage('noVideos')}
+        {chrome.i18n.getMessage("noVideos")}
       </div>
     );
   }

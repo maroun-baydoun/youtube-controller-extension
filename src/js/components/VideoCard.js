@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 import {
-  processTabTitle,
-  playbackClass,
   mutedClass,
-} from '../util';
+  playbackClass,
+  processTabTitle,
+} from "../util";
 
 const VideoCard = ({
   tab, video, onTabToggle, onPlaybackToggle, onMutedToggle,
@@ -16,7 +16,7 @@ const VideoCard = ({
     <section className="video-card__header">
       <a
         href={tab.url}
-        title={chrome.i18n.getMessage('clickToGoToVideo')}
+        title={chrome.i18n.getMessage("clickToGoToVideo")}
         onClick={() => onTabToggle(tab.id)}
       >
         {processTabTitle(tab.title)}
@@ -26,17 +26,19 @@ const VideoCard = ({
       <section className="video-card__actions">
         <button
           type="button"
-          title={chrome.i18n.getMessage(video.paused ? 'play' : 'pause')}
+          title={chrome.i18n.getMessage(video.paused ? "play" : "pause")}
           onClick={() => onPlaybackToggle(tab.id)}
         >
-          <i className={['fa', playbackClass(video)].join(' ')} />
+          <i className={["fa", playbackClass(video)].join(" ")} />
         </button>
         <button
           type="button"
-          title={chrome.i18n.getMessage(video.muted ? 'Unmute' : 'Mute')}
+          title={chrome.i18n.getMessage(video.muted ? "Unmute" : "Mute")}
           onClick={() => onMutedToggle(tab.id)}
         >
-          <i className={['fa', mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(' ')} />
+          <i
+            className={["fa", mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(" ")}
+          />
         </button>
       </section>
     )}
