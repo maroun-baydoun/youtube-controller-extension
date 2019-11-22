@@ -71,6 +71,13 @@ const options = {
     }),
     new CopyWebpackPlugin([{
       from: 'src/manifest.json',
+      transform: (content) => {
+        if (!devMode) {
+          return content;
+        }
+        const manifestContent = JSON.parse(content.toString());
+        return Buffer.from(JSON.stringify({ ...manifestContent, content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'" }));
+      },
     }]),
     new CopyWebpackPlugin([{
       from: './src/icons',
