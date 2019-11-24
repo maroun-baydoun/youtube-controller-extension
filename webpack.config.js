@@ -33,6 +33,17 @@ const options = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          ...(!devMode ? [{
+            loader: MiniCssExtractPlugin.loader,
+          }] : []),
+          ...(devMode ? ["style-loader"] : []),
+          "css-loader",
+        ],
+        exclude: /node_modules\/(?!(font-awesome)\/).*/,
+      },
+      {
         test: /\.scss$/,
         use: [
           ...(!devMode ? [{
@@ -47,7 +58,7 @@ const options = {
       {
         test: new RegExp(`\.(${fileExtensions.join("|")})$`),
         loader: "file-loader?name=[name].[ext]",
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!(font-awesome)\/).*/,
       },
       {
         test: /\.html$/,

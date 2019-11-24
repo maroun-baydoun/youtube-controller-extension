@@ -5,6 +5,7 @@ import VideoList from "./components/VideoList";
 
 import * as Util from "./util";
 
+import "font-awesome/css/font-awesome.min.css";
 import "../style/style.scss";
 
 const App = () => {
