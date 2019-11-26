@@ -4,6 +4,9 @@ module.exports = {
     es6: true,
   },
   extends: ["airbnb", "plugin:react/recommended"],
+  plugins: [
+    "react-hooks",
+  ],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
@@ -17,6 +20,8 @@ module.exports = {
     }
   },
   rules: {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": 0,
     "react/no-unknown-property": 0,
     "react/react-in-jsx-scope": 0,

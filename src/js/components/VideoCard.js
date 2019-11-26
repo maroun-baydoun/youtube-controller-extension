@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import {
   mutedClass,
@@ -8,41 +8,53 @@ import {
 
 const VideoCard = ({
   tab, video, onTabToggle, onPlaybackToggle, onMutedToggle,
-}) => (
-  <article
-    key={tab.id}
-    className="video-card"
-  >
-    <section className="video-card__header">
-      <a
-        href={tab.url}
-        title={chrome.i18n.getMessage("clickToGoToVideo")}
-        onClick={() => onTabToggle(tab.id)}
-      >
-        {processTabTitle(tab.title)}
-      </a>
-    </section>
-    {video && (
-      <section className="video-card__actions">
-        <button
-          type="button"
-          title={chrome.i18n.getMessage(video.paused ? "play" : "pause")}
-          onClick={() => onPlaybackToggle(tab.id)}
+}) => {
+  const onTabToggleCallback = useCallback((e) => {
+    e.preventDefault();
+    onTabToggle(tab.id);
+  },
+  [tab.id, onTabToggle]);
+
+  const onPlaybackToggleCallback = useCallback(() => onPlaybackToggle(tab.id), [tab.id, onPlaybackToggle]);
+
+  const onMutedToggleCallback = useCallback(() => onMutedToggle(tab.id), [tab.id, onMutedToggle]);
+
+  return (
+    <article
+      key={tab.id}
+      className="video-card"
+    >
+      <section className="video-card__header">
+        <a
+          href={tab.url}
+          title={chrome.i18n.getMessage("clickToGoToVideo")}
+          onClick={onTabToggleCallback}
         >
-          <i className={["fa", playbackClass(video)].join(" ")} />
-        </button>
-        <button
-          type="button"
-          title={chrome.i18n.getMessage(video.muted ? "Unmute" : "Mute")}
-          onClick={() => onMutedToggle(tab.id)}
-        >
-          <i
-            className={["fa", mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(" ")}
-          />
-        </button>
+          {processTabTitle(tab.title)}
+        </a>
       </section>
-    )}
-  </article>
-);
+      {video && (
+        <section className="video-card__actions">
+          <button
+            type="button"
+            title={chrome.i18n.getMessage(video.paused ? "play" : "pause")}
+            onClick={onPlaybackToggleCallback}
+          >
+            <i className={["fa", playbackClass(video)].join(" ")} />
+          </button>
+          <button
+            type="button"
+            title={chrome.i18n.getMessage(video.muted ? "Unmute" : "Mute")}
+            onClick={onMutedToggleCallback}
+          >
+            <i
+              className={["fa", mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(" ")}
+            />
+          </button>
+        </section>
+      )}
+    </article>
+  );
+};
 
 export default VideoCard;
