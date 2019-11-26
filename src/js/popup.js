@@ -4,17 +4,21 @@ import ReactGA from "react-ga";
 
 import VideoList from "./components/VideoList";
 
+import Config from "./config";
 import * as Util from "./util";
 
 import "font-awesome/css/font-awesome.min.css";
 import "../style/style.scss";
 
 
-ReactGA.initialize("UA-153176648-1", {
-  titleCase: false,
-});
+if (Config.sendAnalytics) {
+  ReactGA.initialize("UA-153176648-1", {
+    titleCase: false,
+  });
 
-ReactGA.ga("set", "checkProtocolTask", null);
+  ReactGA.ga("set", "checkProtocolTask", null);
+}
+
 
 const App = () => {
   const [tabs, setTabs] = useState([]);
@@ -22,7 +26,9 @@ const App = () => {
 
   useEffect(() => {
     Util.queryTabs(tabsResult => setTabs(tabsResult));
-    ReactGA.pageview("popup.html");
+    if (Config.sendAnalytics) {
+      ReactGA.pageview("popup.html");
+    }
   }, []);
 
   useEffect(() => {

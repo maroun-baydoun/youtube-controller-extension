@@ -117,6 +117,9 @@ const options = {
       chunkFilename: "[id].css",
       ignoreOrder: false,
     }),
+    new webpack.DefinePlugin({
+      __SEND_ANALYTICS__: process.env.SEND_ANALYTICS === "true",
+    }),
   ],
 };
 
