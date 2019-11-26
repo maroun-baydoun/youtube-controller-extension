@@ -37,9 +37,9 @@ export const toggleVideoMuted = (tabId, callback) => {
   });
 };
 
-export const toggleTab = (tabId, selected = true) => {
+export const toggleTab = (tabId, active = true) => {
   chrome.tabs.update(tabId, {
-    selected,
+    active,
   });
 };
 
