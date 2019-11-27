@@ -32,7 +32,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (tabs.length === 0) {
+      if (Config.sendAnalytics) {
+        ReactGA.event({
+          category: "popup",
+          action: "noVideosFound",
+        });
+      }
+      return;
+    }
+
     if (tabs.length === 1) {
+      if (Config.sendAnalytics) {
+        ReactGA.event({
+          category: "video",
+          action: "playbackToggle:browserAction",
+        });
+      }
       window.close();
       Util.toggleVideoPlayback(tabs[0].id);
     }
