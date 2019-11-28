@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import ReactGA from "react-ga";
+import { useGa } from "../hooks";
 
 import {
   mutedClass,
@@ -10,30 +10,32 @@ import {
 const VideoCard = ({
   tab, video, onTabToggle, onPlaybackToggle, onMutedToggle,
 }) => {
+  const { event } = useGa();
+
   const onTabToggleCallback = useCallback((e) => {
     e.preventDefault();
     onTabToggle(tab.id);
-    ReactGA.event({
+    event({
       category: "tab",
       action: "toggle",
     });
-  }, [tab.id, onTabToggle]);
+  }, [tab.id, onTabToggle, event]);
 
   const onPlaybackToggleCallback = useCallback(() => {
     onPlaybackToggle(tab.id);
-    ReactGA.event({
+    event({
       category: "video",
       action: "playbackToggle:button",
     });
-  }, [tab.id, onPlaybackToggle]);
+  }, [tab.id, onPlaybackToggle, event]);
 
   const onMutedToggleCallback = useCallback(() => {
     onMutedToggle(tab.id);
-    ReactGA.event({
+    event({
       category: "video",
       action: "mutedToggle:button",
     });
-  }, [tab.id, onMutedToggle]);
+  }, [tab.id, onMutedToggle, event]);
 
   return (
     <article

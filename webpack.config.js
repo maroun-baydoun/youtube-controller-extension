@@ -76,7 +76,6 @@ const options = {
     alias,
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
     }),
@@ -87,7 +86,7 @@ const options = {
           return content;
         }
         const manifestContent = JSON.parse(content.toString());
-        return Buffer.from(JSON.stringify({ ...manifestContent, content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'" }));
+        return Buffer.from(JSON.stringify({ ...manifestContent, content_security_policy: "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'" }));
       },
     }]),
     new CopyWebpackPlugin([{
@@ -111,7 +110,6 @@ const options = {
       filename: "background.html",
       chunks: ["background"],
     }),
-    new WriteFilePlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
@@ -120,11 +118,14 @@ const options = {
     new webpack.DefinePlugin({
       __SEND_ANALYTICS__: process.env.SEND_ANALYTICS === "true",
     }),
+    new WriteFilePlugin(),
   ],
 };
 
 if (devMode) {
   options.devtool = "cheap-module-eval-source-map";
+} else {
+  options.plugins = [...options.plugins, new CleanWebpackPlugin()];
 }
 
 module.exports = options;

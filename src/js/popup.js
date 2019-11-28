@@ -1,54 +1,46 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import ReactGA from "react-ga";
 
 import VideoList from "./components/VideoList";
+import { useGa } from "./hooks";
 
-import Config from "./config";
 import * as Util from "./util";
 
 import "font-awesome/css/font-awesome.min.css";
 import "../style/style.scss";
 
-
-if (Config.sendAnalytics) {
-  ReactGA.initialize("UA-153176648-1", {
-    titleCase: false,
-  });
-
-  ReactGA.ga("set", "checkProtocolTask", null);
-}
-
-
-const App = () => {
-  const [tabs, setTabs] = useState([]);
+const Popup = () => {
+  const { initialise, pageview, event } = useGa();
+  const [tabs, setTabs] = useState(null);
   const [videos, setVideos] = useState({});
 
   useEffect(() => {
-    Util.queryTabs(tabsResult => setTabs(tabsResult));
-    if (Config.sendAnalytics) {
-      ReactGA.pageview("popup.html");
-    }
-  }, []);
+    initialise();
+    pageview("popup.html");
+  }, [initialise, pageview]);
 
   useEffect(() => {
+    Util.queryTabs(tabsResult => setTabs(tabsResult));
+  }, [pageview]);
+
+  useEffect(() => {
+    if (tabs === null) {
+      return;
+    }
+
     if (tabs.length === 0) {
-      if (Config.sendAnalytics) {
-        ReactGA.event({
-          category: "popup",
-          action: "noVideosFound",
-        });
-      }
+      event({
+        category: "popup",
+        action: "noVideosFound",
+      });
       return;
     }
 
     if (tabs.length === 1) {
-      if (Config.sendAnalytics) {
-        ReactGA.event({
-          category: "video",
-          action: "playbackToggle:browserAction",
-        });
-      }
+      event({
+        category: "video",
+        action: "playbackToggle:browserAction",
+      });
       window.close();
       Util.toggleVideoPlayback(tabs[0].id);
     }
@@ -56,7 +48,7 @@ const App = () => {
     tabs.forEach(tab => Util.getVideo(tab.id, (video) => {
       setVideos(stateVideos => ({ ...stateVideos, [tab.id]: video }));
     }));
-  }, [tabs]);
+  }, [tabs, event]);
 
   const toggleVideoPlayback = useCallback((tabId) => {
     Util.toggleVideoPlayback(tabId, (paused) => {
@@ -69,6 +61,10 @@ const App = () => {
     });
   }, []);
 
+  if (tabs === null) {
+    return null;
+  }
+
   return (
     <VideoList
       tabs={tabs}
@@ -80,4 +76,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.querySelector("main"));
+ReactDOM.render(<Popup />, document.querySelector("main"));
