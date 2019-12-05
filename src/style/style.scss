@@ -88,11 +88,15 @@ body {
             color: lighten($primary-text-color,40);
             border-top: 1px solid $border-color;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            .footer__version-container {
+                font-size: 0.8em;
+            }
             .footer__links-container {
-                width: 15%;
+                width: 10%;
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
             }
         }
     }
