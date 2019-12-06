@@ -15,6 +15,7 @@ const useGa = () => {
     });
 
     ReactGA.ga("set", "checkProtocolTask", null);
+    ReactGA.set({ dimension1: `${chrome.runtime.getManifest().version}` });
   }, [sendAnalytics]);
 
   const pageview = useCallback((page) => {
