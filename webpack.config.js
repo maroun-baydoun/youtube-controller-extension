@@ -24,7 +24,8 @@ const options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     popup: path.join(__dirname, "src", "js", "popup.js"),
-    background: path.join(__dirname, "src", "js", "background.js"),
+    shortcuts: path.join(__dirname, "src", "js", "background", "shortcuts.js"),
+    lifeCycle: path.join(__dirname, "src", "js", "background", "lifeCycle.js"),
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -108,7 +109,7 @@ const options = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "background.html"),
       filename: "background.html",
-      chunks: ["background"],
+      chunks: ["shortcuts", "lifeCycle"],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",

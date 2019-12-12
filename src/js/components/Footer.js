@@ -1,23 +1,22 @@
 import React, { useCallback } from "react";
 
-import { useGa } from "../hooks";
+import Analytics from "../analytics";
 
 const Footer = () => {
-  const { event } = useGa();
-
+  
   const onHomeClick = useCallback(() => {
-    event({
+    Analytics.event({
       category: "externalLink",
       action: "home:footer",
     });
-  }, [event]);
+  }, []);
 
   const onTwitterClick = useCallback(() => {
-    event({
+    Analytics.event({
       category: "externalLink",
       action: "twitter:footer",
     });
-  }, [event]);
+  }, []);
 
   return (
     <footer>

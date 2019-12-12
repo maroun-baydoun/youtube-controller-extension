@@ -5,26 +5,25 @@ import ReactDOM from "react-dom";
 
 import VideoList from "./components/VideoList";
 import Footer from "./components/Footer";
-import { useGa } from "./hooks";
 
 import * as Util from "./util";
+import Analytics from "./analytics";
 
 import "font-awesome/css/font-awesome.min.css";
 import "../style/style.scss";
 
 const Popup = () => {
-  const { initialise, pageview, event } = useGa();
   const [tabs, setTabs] = useState(null);
   const [videos, setVideos] = useState({});
 
   useEffect(() => {
-    initialise();
-    pageview("popup.html");
-  }, [initialise, pageview]);
+    Analytics.initialise();
+    Analytics.pageview("popup.html");
+  }, []);
 
   useEffect(() => {
     Util.queryTabs(tabsResult => setTabs(tabsResult));
-  }, [pageview]);
+  }, []);
 
   useEffect(() => {
     if (tabs === null) {
@@ -32,7 +31,7 @@ const Popup = () => {
     }
 
     if (tabs.length === 0) {
-      event({
+      Analytics.event({
         category: "popup",
         action: "noVideosFound",
       });
@@ -40,7 +39,7 @@ const Popup = () => {
     }
 
     if (tabs.length === 1) {
-      event({
+      Analytics.event({
         category: "video",
         action: "playbackToggle:browserAction",
       });
@@ -51,7 +50,7 @@ const Popup = () => {
     tabs.forEach(tab => Util.getVideo(tab.id, (video) => {
       setVideos(stateVideos => ({ ...stateVideos, [tab.id]: video }));
     }));
-  }, [tabs, event]);
+  }, [tabs]);
 
   const toggleVideoPlayback = useCallback((tabId) => {
     Util.toggleVideoPlayback(tabId, (paused) => {
