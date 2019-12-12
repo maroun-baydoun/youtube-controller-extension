@@ -1,5 +1,6 @@
-const webpack = require('webpack');
-const config = require('../webpack.config');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const webpack = require("webpack");
+const config = require("../webpack.config");
 
 delete config.chromeExtensionBoilerplate;
 

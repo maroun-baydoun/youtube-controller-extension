@@ -125,7 +125,7 @@ const options = {
 if (devMode) {
   options.devtool = "cheap-module-eval-source-map";
 } else {
-  options.plugins = [...options.plugins, new CleanWebpackPlugin()];
+  options.plugins = [new CleanWebpackPlugin(), ...options.plugins];
 }
 
 module.exports = options;

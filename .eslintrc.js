@@ -3,8 +3,14 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ["airbnb", "plugin:react/recommended"],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
+  extends: ["plugin:react/recommended"],
   plugins: [
+    "import",
     "react-hooks",
   ],
   globals: {
