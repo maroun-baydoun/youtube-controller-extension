@@ -1,0 +1,19 @@
+$spacing: 8px;
+
+$body-color1: #000;
+$body-color2: #666;
+
+$heading-font-family: "Cutive Mono", monospace;
+$content-font-family: "Roboto", sans-serif;
+
+$h1-font-size: 2rem;
+$h2-font-size: 1.3rem;
+$footer-font-size: 0.9rem;
+
+$mobile-max-width: 767px;
+$medium-desktop-max-width: 1100px;
+$large-desktop-max-width: 1400px;
+$media-mobile: "only screen and (max-width : #{$mobile-max-width})";
+$media-mobile-landscape: "only screen and (max-width : #{$mobile-max-width}) and (orientation: landscape)";
+$media-medium-desktop: "only screen and (max-width : #{$medium-desktop-max-width})";
+$media-large-desktop: "only screen and (max-width : #{$large-desktop-max-width})";

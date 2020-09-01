@@ -1,0 +1,57 @@
+@import "_variables";
+
+@mixin padding-left($factor: 0) {
+  padding-left: $factor * $spacing;
+}
+
+@mixin padding-right($factor: 0) {
+  padding-right: $factor * $spacing;
+}
+
+@mixin padding-top($factor: 0) {
+  padding-top: $factor * $spacing;
+}
+
+@mixin padding-bottom($factor: 0) {
+  padding-bottom: $factor * $spacing;
+}
+
+@mixin padding-vertical($factor: 0) {
+  padding: $factor * $spacing 0;
+}
+
+@mixin padding-horizontal($factor: 0) {
+  padding: 0 $factor * $spacing;
+}
+
+@mixin padding($vertical-factor: 0, $horizontal-factor: 0) {
+  padding: $vertical-factor * $spacing $horizontal-factor * $spacing;
+}
+
+@mixin flex($direction: none, $align-items: none, $justify-content: none) {
+  display: flex;
+
+  @if $direction != none {
+    flex-direction: $direction;
+  }
+
+  @if $align-items != none {
+    align-items: $align-items;
+  }
+
+  @if $justify-content != none {
+    justify-content: $justify-content;
+  }
+}
+
+@mixin flex-column() {
+  @include flex($direction: column);
+}
+
+@mixin flex-column-centered() {
+  @include flex(
+    $direction: column,
+    $align-items: center,
+    $justify-content: center
+  );
+}
