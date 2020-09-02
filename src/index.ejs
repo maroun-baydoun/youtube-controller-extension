@@ -23,6 +23,16 @@
             Created by <a href="https://maroun-baydoun.com">Maroun Baydoun</a>
         </div>
     </footer>
+    <%if (process.env.NODE_ENV === "production") { %>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62589493-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-62589493-1', { 'anonymize_ip': true });
+    </script>
+    <% } %>
 </body>
 
 </html>
