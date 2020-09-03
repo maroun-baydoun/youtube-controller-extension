@@ -1,0 +1,13 @@
+@import "variables";
+
+.footer {
+  font-size: $footer-font-size;
+
+  flex-shrink: 0;
+
+  @include padding(4, 2);
+
+  @media #{$media-mobile} {
+    @include flex-column-centered();
+  }
+}

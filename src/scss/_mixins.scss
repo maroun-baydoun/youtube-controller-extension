@@ -28,6 +28,38 @@
   padding: $vertical-factor * $spacing $horizontal-factor * $spacing;
 }
 
+@mixin margin-left($factor: 0) {
+  margin-left: $factor * $spacing;
+}
+
+@mixin margin-right($factor: 0) {
+  margin-right: $factor * $spacing;
+}
+
+@mixin margin-top($factor: 0) {
+  margin-top: $factor * $spacing;
+}
+
+@mixin margin-bottom($factor: 0) {
+  margin-bottom: $factor * $spacing;
+}
+
+@mixin margin-vertical($factor: 0) {
+  margin: $factor * $spacing 0;
+}
+
+@mixin margin-horizontal($factor: 0) {
+  margin: 0 $factor * $spacing;
+}
+
+@mixin padding($vertical-factor: 0, $horizontal-factor: 0) {
+  padding: $vertical-factor * $spacing $horizontal-factor * $spacing;
+}
+
+@mixin margin($vertical-factor: 0, $horizontal-factor: 0) {
+  margin: $vertical-factor * $spacing $horizontal-factor * $spacing;
+}
+
 @mixin flex($direction: none, $align-items: none, $justify-content: none) {
   display: flex;
 

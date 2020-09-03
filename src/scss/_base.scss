@@ -1,0 +1,40 @@
+@import "_variables";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: $body-color1;
+
+  font-family: $content-font-family;
+
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: $link-color1;
+
+  &:hover {
+    color: $link-color2;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font-family;
+}
+
+h1 {
+  font-size: $h1-font-size;
+}
+
+h2 {
+  font-size: $h2-font-size;
+}

@@ -16,6 +16,14 @@
     <header class="header">
         <h1><%= htmlWebpackPlugin.options.heading1 %></h1>
         <h2><%= htmlWebpackPlugin.options.heading2 %></h2>
+        <nav>
+            <%if (htmlWebpackPlugin.options.githubLink) { %>
+            <a href="<%= htmlWebpackPlugin.options.githubLink %>" rel="external" title="View the source code on Github">Github</a>
+            <% } %>
+            <%if (htmlWebpackPlugin.options.npmLink) { %>
+            <a href="<%= htmlWebpackPlugin.options.npmLink %>" rel="external" title="Get the package on npm">NPM</a>
+            <% } %>
+        </nav>
     </header>
     <main class="content"></main>
     <footer class="footer">

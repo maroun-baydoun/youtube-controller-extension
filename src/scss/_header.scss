@@ -1,0 +1,26 @@
+@import "variables";
+@import "mixins";
+
+.header {
+  @include padding(4, 2);
+
+  @media #{$media-mobile} {
+    @include flex-column-centered();
+  }
+
+  h2 {
+    color: $body-color2;
+
+    @include margin-top(1);
+  }
+
+  nav {
+    font-size: $nav-font-size;
+
+    @include margin-top(1);
+
+    a {
+      @include margin-right(1);
+    }
+  }
+}

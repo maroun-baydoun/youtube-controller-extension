@@ -1,54 +1,10 @@
-@import "_variables";
+@import "variables";
 @import "mixins";
 
-html,
-body {
-  height: 100%;
-}
-
-body {
-  color: $body-color1;
-
-  font-family: $content-font-family;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.header {
-  @include padding(4, 2);
-
-  @media #{$media-mobile} {
-    @include flex-column-centered();
-  }
-
-  h1 {
-    font-size: $h1-font-size;
-    font-family: $heading-font-family;
-  }
-
-  h2 {
-    font-size: $h2-font-size;
-    font-family: $heading-font-family;
-
-    color: $body-color2;
-
-    @include padding-top(1);
-  }
-}
+@import "base";
+@import "header";
+@import "footer";
 
 .content {
   flex: 1 0 auto;
-}
-
-.footer {
-  font-size: $footer-font-size;
-
-  flex-shrink: 0;
-
-  @include padding(4, 2);
-
-  @media #{$media-mobile} {
-    @include flex-column-centered();
-  }
 }
