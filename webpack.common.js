@@ -22,7 +22,7 @@ module.exports = merge( react, {
     rules: [
       {
         test: /\.module\.s(a|c)ss$/,
-        loader: [
+        use: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
@@ -42,7 +42,7 @@ module.exports = merge( react, {
       {
         test: /\.s(a|c)ss$/,
         exclude: /\.module.(s(a|c)ss)$/,
-        loader: [
+        use: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           {
