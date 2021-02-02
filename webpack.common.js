@@ -1,12 +1,14 @@
 const path = require("path");
+const webpack = require("webpack");
 const { merge } = require('webpack-merge');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const variables = require("./src/variables");
+const features = require("./package.json").features || {};
 
-const react = require('./webpack.react.js');
+const react = features['react'] === true ? require('./webpack.react.js') : {};
 
 
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -16,7 +18,7 @@ module.exports = merge( react, {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    filename: "[contenthash].bundle.js",
   },
   module: {
     rules: [
@@ -54,6 +56,14 @@ module.exports = merge( react, {
         ],
       },
       {
+        test: /\.css$/,
+        exclude: /\.(s(a|c)ss)$/,
+        use: [
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
+      },
+      {
         test: /\.(js)$/,
         exclude: /node_modules/,
         use: ["babel-loader"],
@@ -61,18 +71,26 @@ module.exports = merge( react, {
     ],
   },
   resolve: {
-    extensions: [".js", ".scss"],
+    extensions: [".js", ".scss", ".css"],
   },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 8000,
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
   plugins: [
     new HtmlWebPackPlugin({ ...variables }),
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
-      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
+      filename: isDevelopment ? "[name].css" : "[name].[contenthash].css",
+      chunkFilename: isDevelopment ? "[id].css" : "[id].[contenthash].css",
+    }),
+    new webpack.DefinePlugin({
+      FEATURES: JSON.stringify(features),
     }),
     new CleanWebpackPlugin(),
   ],

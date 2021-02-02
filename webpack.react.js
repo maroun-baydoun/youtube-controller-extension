@@ -1,9 +1,4 @@
-const { merge } = require('webpack-merge');
-
-const features = require("./package.json").features || [];
-
-
-module.exports = features.includes('react') ? {
+module.exports = {
     module: {
         rules: [
             {
@@ -16,4 +11,4 @@ module.exports = features.includes('react') ? {
     resolve: {
         extensions: ['.jsx'],
     },
-} : {};
+};

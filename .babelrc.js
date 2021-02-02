@@ -1,5 +1,5 @@
 
-const features = require("./package.json").features || [];
+const features = require("./package.json").features || {};
 
 const presets = [
   [
@@ -10,9 +10,17 @@ const presets = [
     }
   ],
 
-  ...(features.includes('react') ? ["@babel/preset-react"] : []),
+  ...(!!features['react'] ? ["@babel/preset-react"] : []),
 ];
 
-const plugins = [];
+const plugins = [
+
+  ...(!!features['prismjs'] ? [["prismjs", {
+    "languages": features['prismjs'].languages,
+    "theme": "default",
+    "css": true
+  }]] : []),
+  
+];
 
 module.exports = { presets, plugins };
