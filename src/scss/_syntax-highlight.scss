@@ -1,0 +1,20 @@
+@import "variables";
+@import "mixins";
+
+$syntax-highlight-container-width: 50vw;
+$syntax-highlight-container-width-mobile: auto;
+
+.syntax-highlight-container {
+
+    width: $syntax-highlight-container-width;
+
+    @media #{$media-mobile} {
+        width: $syntax-highlight-container-width-mobile;
+    }
+
+    @media #{$media-mobile-landscape} {
+        width: $syntax-highlight-container-width-mobile;
+    }
+
+    
+}
