@@ -3,12 +3,17 @@
 
 hr {
     border: none;
+    height: 1px;
 
     @include margin-vertical(1);
 
     &.hr {
         &--medium {
             @include margin-vertical(2);
+        }
+
+        &--large {
+            @include margin-vertical(3);
         }
     }
 }
