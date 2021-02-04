@@ -1,0 +1,14 @@
+@import "variables";
+@import "mixins";
+
+hr {
+    border: none;
+
+    @include margin-vertical(1);
+
+    &.hr {
+        &--medium {
+            @include margin-vertical(2);
+        }
+    }
+}
