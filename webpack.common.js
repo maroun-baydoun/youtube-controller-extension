@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-const { merge } = require('webpack-merge');
+const { merge } = require("webpack-merge");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -8,12 +8,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const variables = require("./src/variables");
 const features = require("./package.json").features || {};
 
-const react = features['react'] === true ? require('./webpack.react.js') : {};
-
+const react = features["react"] === true ? require("./webpack.react.js") : {};
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-module.exports = merge( react, {
+module.exports = merge(react, {
   context: __dirname,
   entry: "./src/index.js",
   output: {
@@ -80,8 +79,8 @@ module.exports = merge( react, {
   },
   optimization: {
     splitChunks: {
-      chunks: 'all'
-    }
+      chunks: "all",
+    },
   },
   plugins: [
     new HtmlWebPackPlugin({ ...variables }),

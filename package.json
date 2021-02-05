@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "webpack serve --config ./webpack.dev.js",
-    "format": "prettier --write 'src'",
+    "format": "prettier --write 'src' 'webpack.*.js'",
     "build": "webpack --config ./webpack.prod.js",
     "publish": "npm run build && node ./publish",
     "pull-template": "git pull https://github.com/maroun-baydoun/gh-page-template.git  master --allow-unrelated-histories"
@@ -23,6 +23,7 @@
     "babel-loader": "8.2.2",
     "babel-plugin-prismjs": "2.0.1",
     "clean-webpack-plugin": "3.0.0",
+    "copy-webpack-plugin": "7.0.0",
     "core-js": "3.8.1",
     "css-loader": "5.0.1",
     "gh-pages": "3.1.0",
