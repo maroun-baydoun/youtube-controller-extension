@@ -2,10 +2,17 @@
 @import "mixins";
 
 .header {
+  border-bottom: 1px dashed $border-color;
+
   @include padding(4, 2);
 
   @media #{$media-mobile} {
     @include flex-column-centered();
+
+    h1,
+    h2 {
+      text-align: center;
+    }
   }
 
   h2 {

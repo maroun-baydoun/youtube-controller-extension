@@ -8,6 +8,7 @@
     <meta name="author" content="Maroun Baydoun">
     <title><%= htmlWebpackPlugin.options.title %> | Maroun Baydoun</title>
     <meta name="description" content="<%= htmlWebpackPlugin.options.description%>">
+    <link rel="canonical" href="https://dev.maroun-baydoun.com/<%= htmlWebpackPlugin.options.subPath %>" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
@@ -29,10 +30,23 @@
             <% } %>
         </nav>
     </header>
-    <main class="content"></main>
+    <main class="content">
+
+        <%if (htmlWebpackPlugin.options.linkHome) { %>
+            <hr class="hr--large"/>
+            <div class="link-home">
+                See <a href="https://dev.maroun-baydoun.com" rel="home">other projetcs</a>
+            </div>
+        <% } %>
+    </main>
     <footer class="footer">
-        <div class="credits">
-            Created by <a href="https://maroun-baydoun.com">Maroun Baydoun</a>
+        <div class="footer__links">
+            <a href="https://twitter.com/maroun_baydoun">Twitter</a>
+            <a href="https://github.com/maroun-baydoun">Github</a>
+            <a href="https://www.linkedin.com/in/marounbaydoun">Linkedin</a>
+        </div>
+        <div class="footer__credits">
+            &copy;<a href="https://maroun-baydoun.com">Maroun Baydoun</a>
         </div>
     </footer>
     <%if (process.env.NODE_ENV==="production" ) { %>
