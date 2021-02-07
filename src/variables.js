@@ -4,7 +4,7 @@ module.exports = {
   heading1: "",
   heading2: "",
   githubLink: "",
-  subPath: "",
   npmLink: "",
+  subPath: "",
   linkHome: false,
 };
