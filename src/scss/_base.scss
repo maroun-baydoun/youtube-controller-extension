@@ -1,4 +1,5 @@
-@import "_variables";
+@import "variables";
+@import "mixins";
 
 html,
 body {
@@ -10,8 +11,7 @@ body {
 
   font-family: $content-font-family;
 
-  display: flex;
-  flex-direction: column;
+  @include flex-column();
 }
 
 a {
@@ -37,4 +37,8 @@ h1 {
 
 h2 {
   font-size: $h2-font-size;
+}
+
+h3 + * {
+  @include margin-top(1);
 }

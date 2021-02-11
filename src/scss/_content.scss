@@ -3,6 +3,7 @@
 
 .content {
   flex: 1 0 auto;
+  line-height: 1.5;
 
   @include padding(4, 2);
 }
