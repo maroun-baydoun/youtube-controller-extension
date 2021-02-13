@@ -40,5 +40,13 @@ h2 {
 }
 
 h3 + * {
+  font-size: $h3-font-size;
+
+  @include margin-top(1);
+}
+
+h4 + * {
+  font-size: $h4-font-size;
+
   @include margin-top(1);
 }
