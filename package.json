@@ -8,7 +8,8 @@
     "start:dev": "webpack serve --config ./webpack.dev.js",
     "format": "prettier --write 'src' 'webpack.*.js'",
     "build": "webpack --config ./webpack.prod.js",
-    "publish": "npm run build && node ./publish",
+    "generate-image": "node ./generate-image.js",
+    "publish": "npm run build && npm run generate-image && node ./publish",
     "pull-template": "git pull https://github.com/maroun-baydoun/gh-page-template.git  master --allow-unrelated-histories"
   },
   "author": {
@@ -40,6 +41,7 @@
     "webpack-merge": "5.7.3"
   },
   "dependencies": {
+    "node-html-to-image": "3.1.0",
     "prismjs": "1.23.0"
   },
   "features": {

@@ -9,6 +9,17 @@
     <title><%= htmlWebpackPlugin.options.title %> | Maroun Baydoun</title>
     <meta name="description" content="<%= htmlWebpackPlugin.options.description%>">
     <link rel="canonical" href="https://dev.maroun-baydoun.com/<%= htmlWebpackPlugin.options.subPath %>" />
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description%>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dev.maroun-baydoun.com/<%= htmlWebpackPlugin.options.subPath %>" />
+    <meta property="og:image" content="https://dev.maroun-baydoun.com/<%= htmlWebpackPlugin.options.subPath %>image.png" />
+    <meta property="og:image:alt" content="<%= htmlWebpackPlugin.options.heading1%>. <%= htmlWebpackPlugin.options.heading2%>" />
+    <meta property="og:locale" content="en">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@maroun_baydoun">
+    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.description%>">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
