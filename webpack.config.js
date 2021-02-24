@@ -5,7 +5,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WriteFilePlugin = require("write-file-webpack-plugin");
 const env = require("./utils/env");
 
 const alias = {};
@@ -58,7 +57,10 @@ const options = {
       },
       {
         test: new RegExp(`\.(${fileExtensions.join("|")})$`),
-        loader: "file-loader?name=[name].[ext]",
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]",
+        },
         exclude: /node_modules\/(?!(font-awesome)\/).*/,
       },
       {
@@ -80,7 +82,7 @@ const options = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
     }),
-    new CopyWebpackPlugin([{
+    new CopyWebpackPlugin({patterns: [{
       from: "src/manifest.json",
       transform: (content) => {
         if (!devMode) {
@@ -89,18 +91,18 @@ const options = {
         const manifestContent = JSON.parse(content.toString());
         return Buffer.from(JSON.stringify({ ...manifestContent, content_security_policy: "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'" }));
       },
-    }]),
-    new CopyWebpackPlugin([{
+    }]}),
+    new CopyWebpackPlugin({patterns: [{
       from: "./src/icons",
-    }]),
-    new CopyWebpackPlugin([{
+    }]}),
+    new CopyWebpackPlugin({patterns: [{
       from: "./src/js/video",
       to: "./video",
-    }]),
-    new CopyWebpackPlugin([{
+    }]}),
+    new CopyWebpackPlugin({patterns: [{
       from: "./_locales",
       to: "./_locales",
-    }]),
+    }]}),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "popup.html"),
       filename: "popup.html",
@@ -119,12 +121,11 @@ const options = {
     new webpack.DefinePlugin({
       __SEND_ANALYTICS__: process.env.SEND_ANALYTICS === "true",
     }),
-    new WriteFilePlugin(),
   ],
 };
 
 if (devMode) {
-  options.devtool = "cheap-module-eval-source-map";
+  options.devtool = "eval-cheap-module-source-map";
 } else {
   options.plugins = [new CleanWebpackPlugin(), ...options.plugins];
 }

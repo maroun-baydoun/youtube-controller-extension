@@ -27,6 +27,7 @@ const server = new WebpackDevServer(compiler, {
   contentBase: path.join(__dirname, '../build'),
   headers: { 'Access-Control-Allow-Origin': '*' },
   disableHostCheck: true,
+  writeToDisk: true,
 });
 
 server.listen(env.PORT);
