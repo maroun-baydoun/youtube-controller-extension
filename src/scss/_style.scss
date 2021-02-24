@@ -1,0 +1,13 @@
+@import "mixins";
+
+.description {
+  width: 50vw;
+
+  @media #{$media-mobile} {
+    width: auto;
+  }
+}
+
+.img-container {
+  @include margin-top(2);
+}
