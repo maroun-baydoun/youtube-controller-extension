@@ -1,103 +1,104 @@
 $width: 300px;
 $min-height: 200px;
 $padding-unit: 8px;
-$font-family: 'Open Sans',sans-serif;
+$font-family: "Open Sans", sans-serif;
 $font-size: 12px;
-$primary-color: #FF5722;
+$primary-color: #ff5722;
 $primary-text-color: #212121;
-$main-background: #EFEFEF;
-$border-color: #DEDEDE;
-$card-background: #FFFFFF;
+$main-background: #efefef;
+$border-color: #dedede;
+$card-background: #ffffff;
 $card-border-radius: 5px;
-$card-shadow: 2px 4px 4px #DEDEDE,-2px 4px 4px #DEDEDE;
-html, body {
-    margin: 0;
-    padding: 0;
+$card-shadow: 2px 4px 4px #dedede, -2px 4px 4px #dedede;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 body {
-    width: $width;
-    min-height: $min-height;
-    font-family: $font-family;
-    font-size: $font-size;
-    background-color: $main-background;
-    color: $primary-text-color;
-    #popup {
-        min-height: inherit;
-        a {
-            color: lighten($primary-color,5);
-            text-decoration: none;
-            transition: 0.2s color linear;
-            &:hover {
-                color: darken($primary-color,8);
-            }
-        }
-        main {
-            min-height: inherit;
-            padding: $padding-unit * 2;
-            .notice {
-                min-height: inherit;
-                font-size: 1.2em;
-                font-weight: bold;
-                color: lighten($primary-text-color,40);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .video-card {
-                background-color: $card-background;
-                box-shadow: $card-shadow;
-                margin-bottom: $padding-unit * 2;
-                padding: $padding-unit $padding-unit 0 $padding-unit;
-                border-radius: $card-border-radius;
-                .video-card__header {
-                    a {
-                        color: inherit;
-                        text-decoration: none;
-                        &:hover {
-                            text-decoration: underline;
-                        }
-                    }
-                }
-                .video-card__actions {
-                    margin-top: $padding-unit * 2;
-                    padding: $padding-unit 0;
-                    border-top: 1px solid $border-color;
-                    display: flex;
-                    button {
-                        width: $padding-unit * 3;
-                        padding: 0;
-                        border: 0;
-                        text-align: center;
-                        font-size: 1.1em;
-                        color: $primary-color;
-                        background-color: $card-background;
-                        margin-right: $padding-unit;
-                        transition: 0.5s color linear;
-                        cursor: pointer;
-                        &:hover {
-                            color: darken($primary-color,8);
-                        }
-                    }
-                }
-            }
-        }
-        footer {
-            box-sizing: border-box;
-            padding: $padding-unit / 2 $padding-unit * 2;
-            background-color: darken($main-background,5);
-            color: lighten($primary-text-color,40);
-            border-top: 1px solid $border-color;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .footer__version-container {
-                font-size: 0.8em;
-            }
-            .footer__links-container {
-                width: 10%;
-                display: flex;
-                justify-content: space-between;
-            }
-        }
+  width: $width;
+  min-height: $min-height;
+  font-family: $font-family;
+  font-size: $font-size;
+  background-color: $main-background;
+  color: $primary-text-color;
+  #popup {
+    min-height: inherit;
+    a {
+      color: lighten($primary-color, 5);
+      text-decoration: none;
+      transition: 0.2s color linear;
+      &:hover {
+        color: darken($primary-color, 8);
+      }
     }
+    main {
+      min-height: inherit;
+      padding: $padding-unit * 2;
+      .notice {
+        min-height: inherit;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: lighten($primary-text-color, 40);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-card {
+        background-color: $card-background;
+        box-shadow: $card-shadow;
+        margin-bottom: $padding-unit * 2;
+        padding: $padding-unit $padding-unit 0 $padding-unit;
+        border-radius: $card-border-radius;
+        .video-card__header {
+          a {
+            color: inherit;
+            text-decoration: none;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+        .video-card__actions {
+          margin-top: $padding-unit * 2;
+          padding: $padding-unit 0;
+          border-top: 1px solid $border-color;
+          display: flex;
+          button {
+            width: $padding-unit * 3;
+            padding: 0;
+            border: 0;
+            text-align: center;
+            font-size: 1.1em;
+            color: $primary-color;
+            background-color: $card-background;
+            margin-right: $padding-unit;
+            transition: 0.5s color linear;
+            cursor: pointer;
+            &:hover {
+              color: darken($primary-color, 8);
+            }
+          }
+        }
+      }
+    }
+    footer {
+      box-sizing: border-box;
+      padding: $padding-unit / 2 $padding-unit * 2;
+      background-color: darken($main-background, 5);
+      color: lighten($primary-text-color, 40);
+      border-top: 1px solid $border-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .footer__version-container {
+        font-size: 0.8em;
+      }
+      .footer__links-container {
+        width: 10%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
 }

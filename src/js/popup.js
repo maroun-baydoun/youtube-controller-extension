@@ -1,6 +1,4 @@
-import React, {
-  Fragment, useCallback, useEffect, useState,
-} from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import VideoList from "./components/VideoList";
@@ -15,9 +13,8 @@ const Popup = () => {
   const [tabs, setTabs] = useState(null);
   const [videos, setVideos] = useState({});
 
-
   useEffect(() => {
-    Util.queryTabs(tabsResult => setTabs(tabsResult));
+    Util.queryTabs((tabsResult) => setTabs(tabsResult));
   }, []);
 
   useEffect(() => {
@@ -34,19 +31,27 @@ const Popup = () => {
       Util.toggleVideoPlayback(tabs[0].id);
     }
 
-    tabs.forEach(tab => Util.getVideo(tab.id, (video) => {
-      setVideos(stateVideos => ({ ...stateVideos, [tab.id]: video }));
-    }));
+    tabs.forEach((tab) =>
+      Util.getVideo(tab.id, (video) => {
+        setVideos((stateVideos) => ({ ...stateVideos, [tab.id]: video }));
+      })
+    );
   }, [tabs]);
 
   const toggleVideoPlayback = useCallback((tabId) => {
     Util.toggleVideoPlayback(tabId, (paused) => {
-      setVideos(stateVideos => ({ ...stateVideos, [tabId]: { ...stateVideos[tabId], paused } }));
+      setVideos((stateVideos) => ({
+        ...stateVideos,
+        [tabId]: { ...stateVideos[tabId], paused },
+      }));
     });
   }, []);
   const toggleVideoMuted = useCallback((tabId) => {
     Util.toggleVideoMuted(tabId, (muted) => {
-      setVideos(stateVideos => ({ ...stateVideos, [tabId]: { ...stateVideos[tabId], muted } }));
+      setVideos((stateVideos) => ({
+        ...stateVideos,
+        [tabId]: { ...stateVideos[tabId], muted },
+      }));
     });
   }, []);
 

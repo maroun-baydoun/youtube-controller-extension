@@ -1,19 +1,21 @@
 import React, { useCallback } from "react";
 
-import {
-  mutedClass,
-  playbackClass,
-  processTabTitle,
-} from "../util";
+import { mutedClass, playbackClass, processTabTitle } from "../util";
 
 const VideoCard = ({
-  tab, video, onTabToggle, onPlaybackToggle, onMutedToggle,
+  tab,
+  video,
+  onTabToggle,
+  onPlaybackToggle,
+  onMutedToggle,
 }) => {
-
-  const onTabToggleCallback = useCallback((e) => {
-    e.preventDefault();
-    onTabToggle(tab.id);
-  }, [tab.id, onTabToggle]);
+  const onTabToggleCallback = useCallback(
+    (e) => {
+      e.preventDefault();
+      onTabToggle(tab.id);
+    },
+    [tab.id, onTabToggle]
+  );
 
   const onPlaybackToggleCallback = useCallback(() => {
     onPlaybackToggle(tab.id);
@@ -24,10 +26,7 @@ const VideoCard = ({
   }, [tab.id, onMutedToggle]);
 
   return (
-    <article
-      key={tab.id}
-      className="video-card"
-    >
+    <article key={tab.id} className="video-card">
       <section className="video-card__header">
         <a
           href={tab.url}
@@ -52,7 +51,13 @@ const VideoCard = ({
             onClick={onMutedToggleCallback}
           >
             <i
-              className={["fa", mutedClass(video ? video.muted : false, video ? video.volume : 0)].join(" ")}
+              className={[
+                "fa",
+                mutedClass(
+                  video ? video.muted : false,
+                  video ? video.volume : 0
+                ),
+              ].join(" ")}
             />
           </button>
         </section>

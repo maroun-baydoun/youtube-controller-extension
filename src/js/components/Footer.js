@@ -1,7 +1,6 @@
 import React from "react";
 
 const Footer = () => {
-
   return (
     <footer>
       <section className="footer__version-container">

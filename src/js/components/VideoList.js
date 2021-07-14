@@ -3,14 +3,14 @@ import React, { Fragment } from "react";
 import VideCard from "./VideoCard";
 
 const VideoList = ({
-  tabs, videos, toggleVideoPlayback, toggleVideoMuted, toggleTab,
+  tabs,
+  videos,
+  toggleVideoPlayback,
+  toggleVideoMuted,
+  toggleTab,
 }) => {
   if (tabs.length === 0) {
-    return (
-      <div className="notice">
-        {chrome.i18n.getMessage("noVideos")}
-      </div>
-    );
+    return <div className="notice">{chrome.i18n.getMessage("noVideos")}</div>;
   }
 
   if (tabs.length === 1) {
@@ -19,7 +19,7 @@ const VideoList = ({
 
   return (
     <Fragment>
-      {tabs.map(tab => (
+      {tabs.map((tab) => (
         <VideCard
           key={tab.id}
           tab={tab}
