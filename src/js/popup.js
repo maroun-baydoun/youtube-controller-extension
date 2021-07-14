@@ -7,7 +7,6 @@ import VideoList from "./components/VideoList";
 import Footer from "./components/Footer";
 
 import * as Util from "./util";
-import Analytics from "./analytics";
 
 import "font-awesome/css/font-awesome.min.css";
 import "../style/style.scss";
@@ -16,10 +15,6 @@ const Popup = () => {
   const [tabs, setTabs] = useState(null);
   const [videos, setVideos] = useState({});
 
-  useEffect(() => {
-    Analytics.initialise();
-    Analytics.pageview("popup.html");
-  }, []);
 
   useEffect(() => {
     Util.queryTabs(tabsResult => setTabs(tabsResult));
@@ -31,18 +26,10 @@ const Popup = () => {
     }
 
     if (tabs.length === 0) {
-      Analytics.event({
-        category: "popup",
-        action: "noVideosFound",
-      });
       return;
     }
 
     if (tabs.length === 1) {
-      Analytics.event({
-        category: "video",
-        action: "playbackToggle:browserAction",
-      });
       window.close();
       Util.toggleVideoPlayback(tabs[0].id);
     }

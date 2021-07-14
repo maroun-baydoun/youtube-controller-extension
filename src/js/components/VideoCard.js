@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 
-import Analytics from "../analytics";
-
 import {
   mutedClass,
   playbackClass,
@@ -15,26 +13,14 @@ const VideoCard = ({
   const onTabToggleCallback = useCallback((e) => {
     e.preventDefault();
     onTabToggle(tab.id);
-    Analytics.event({
-      category: "tab",
-      action: "toggle",
-    });
   }, [tab.id, onTabToggle]);
 
   const onPlaybackToggleCallback = useCallback(() => {
     onPlaybackToggle(tab.id);
-    Analytics.event({
-      category: "video",
-      action: "playbackToggle:button",
-    });
   }, [tab.id, onPlaybackToggle]);
 
   const onMutedToggleCallback = useCallback(() => {
     onMutedToggle(tab.id);
-    Analytics.event({
-      category: "video",
-      action: "mutedToggle:button",
-    });
   }, [tab.id, onMutedToggle]);
 
   return (
