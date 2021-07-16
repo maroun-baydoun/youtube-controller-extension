@@ -1,8 +1,7 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import VideoList from "./components/VideoList";
-import Footer from "./components/Footer";
 
 import * as Util from "./util";
 
@@ -60,18 +59,15 @@ const Popup = () => {
   }
 
   return (
-    <Fragment>
-      <main>
-        <VideoList
-          tabs={tabs}
-          videos={videos}
-          toggleVideoPlayback={toggleVideoPlayback}
-          toggleVideoMuted={toggleVideoMuted}
-          toggleTab={Util.toggleTab}
-        />
-      </main>
-      <Footer />
-    </Fragment>
+    <main>
+      <VideoList
+        tabs={tabs}
+        videos={videos}
+        toggleVideoPlayback={toggleVideoPlayback}
+        toggleVideoMuted={toggleVideoMuted}
+        toggleTab={Util.toggleTab}
+      />
+    </main>
   );
 };
 
