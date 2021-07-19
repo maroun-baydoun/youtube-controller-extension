@@ -106,19 +106,22 @@ main {
       margin-right: $padding-unit;
       transition: 0.5s color linear;
       cursor: pointer;
-      &:hover {
-        color: darken($primary-color, 8);
-      }
 
       .icon {
         display: none;
         width: 24px;
         height: 24px;
-        fill: var(--primary-color);
+        fill: $primary-color;
       }
 
       .icon.visible {
         display: block;
+      }
+
+      &:hover {
+        .icon {
+          fill: darken($primary-color, 8);
+        }
       }
     }
   }

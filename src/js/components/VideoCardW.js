@@ -13,6 +13,7 @@ class VideoCard extends HTMLElement {
 
       const titleAnchor = this.querySelector(".video-card__header > a");
       const playbackButton = this.querySelector("playback-button");
+      const volumeButton = this.querySelector("volume-button");
 
       titleAnchor.innerHTML = processTabTitle(this.getAttribute("tab-title"));
 
@@ -30,6 +31,9 @@ class VideoCard extends HTMLElement {
 
       playbackButton.setAttribute("paused", video.paused);
       playbackButton.setAttribute("tab-id", tabId);
+
+      volumeButton.setAttribute("muted", video.muted);
+      volumeButton.setAttribute("tab-id", tabId);
     });
   }
 }
