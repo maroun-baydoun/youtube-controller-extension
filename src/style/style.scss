@@ -1,7 +1,8 @@
 $width: 300px;
 $min-height: 200px;
 $padding-unit: 8px;
-$font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+$font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco",
+  "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 $font-size: 12px;
 $primary-color: #ff5722;
 $primary-text-color: #212121;
@@ -43,10 +44,6 @@ body {
   font-size: $font-size;
   background-color: $main-background;
   color: $primary-text-color;
-}
-
-#popup {
-  min-height: inherit;
 }
 
 a {
@@ -111,6 +108,17 @@ main {
       cursor: pointer;
       &:hover {
         color: darken($primary-color, 8);
+      }
+
+      .icon {
+        display: none;
+        width: 24px;
+        height: 24px;
+        fill: var(--primary-color);
+      }
+
+      .icon.visible {
+        display: block;
       }
     }
   }

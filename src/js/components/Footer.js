@@ -6,7 +6,7 @@ class Footer extends HTMLElement {
       document.getElementById("footer-template").content.cloneNode(true)
     );
 
-    const versionContainer = document.querySelector(".version-container");
+    const versionContainer = this.querySelector(".version-container");
     versionContainer.innerHTML = version;
   }
 }

@@ -64,9 +64,16 @@ const options = {
         exclude: /node_modules\/(?!(font-awesome)\/).*/,
       },
       {
-        test: /\.html$/,
-        loader: "html-loader",
+        test: /\.(html)$/,
         exclude: /node_modules/,
+        use: [
+          {
+            loader: "html-loader",
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.js$/,
@@ -104,7 +111,7 @@ const options = {
       to: "./_locales",
     }]}),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "popup.html"),
+      template: path.join(__dirname, "src", "popup.ejs"),
       filename: "popup.html",
       chunks: ["popup"],
     }),
