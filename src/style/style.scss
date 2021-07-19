@@ -123,3 +123,24 @@ main {
     }
   }
 }
+
+footer {
+  box-sizing: border-box;
+  padding: var(--footer-padding);
+  font-size: var(--font-size-xxsmall);
+  background-color: var(--footer-background-color);
+  color: var(--footer-color);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .icon {
+  height: 15px;
+  fill: $primary-color;
+  transition: 0.2s color linear;
+
+  &:hover {
+    fill: darken($primary-color, 8);
+  }
+}
