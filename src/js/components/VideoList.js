@@ -1,36 +1,35 @@
-import React, { Fragment } from "react";
+import { queryTabs, toggleVideoPlayback } from "../util.js";
 
-import VideCard from "./VideoCard";
+class VideoList extends HTMLElement {
+  connectedCallback() {
+    queryTabs((tabs) => {
+      this.tabs = tabs;
 
-const VideoList = ({
-  tabs,
-  videos,
-  toggleVideoPlayback,
-  toggleVideoMuted,
-  toggleTab,
-}) => {
-  if (tabs.length === 0) {
-    return <div className="notice">{chrome.i18n.getMessage("noVideos")}</div>;
+      if (!tabs) {
+        return;
+      }
+
+      if (!tabs.length) {
+        this.innerHTML = `<div class="notice">${chrome.i18n.getMessage(
+          "noVideos"
+        )}</div>`;
+      } else if (tabs.length === 1) {
+        window.close();
+        toggleVideoPlayback(tabs[0].id);
+      } else {
+        this.innerHTML = tabs
+          .map((tab) => {
+            return `<video-card 
+            tab-id="${tab.id}" 
+            tab-title="${tab.title}" 
+            tab-url="${tab.url}"
+          >
+          </video-card>`;
+          })
+          .join("");
+      }
+    });
   }
+}
 
-  if (tabs.length === 1) {
-    return null;
-  }
-
-  return (
-    <Fragment>
-      {tabs.map((tab) => (
-        <VideCard
-          key={tab.id}
-          tab={tab}
-          video={videos[tab.id]}
-          onPlaybackToggle={toggleVideoPlayback}
-          onMutedToggle={toggleVideoMuted}
-          onTabToggle={toggleTab}
-        />
-      ))}
-    </Fragment>
-  );
-};
-
-export default VideoList;
+window.customElements.define("video-list", VideoList);

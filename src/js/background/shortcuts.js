@@ -1,4 +1,4 @@
-import { queryTabs, toggleVideoPlayback } from "../util";
+import { queryTabs, toggleVideoPlayback } from "../util.js";
 
 chrome.commands.onCommand.addListener((command) => {
   const regex = /^toggle-video-([1-9]{1})$/;

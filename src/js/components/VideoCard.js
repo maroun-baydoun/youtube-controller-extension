@@ -1,69 +1,41 @@
-import React, { useCallback } from "react";
+import { processTabTitle, toggleTab, getVideo } from "../util.js";
 
-import { mutedClass, playbackClass, processTabTitle } from "../util";
+class VideoCard extends HTMLElement {
+  connectedCallback() {
+    const tabId = Number.parseInt(this.getAttribute("tab-id"), 10);
 
-const VideoCard = ({
-  tab,
-  video,
-  onTabToggle,
-  onPlaybackToggle,
-  onMutedToggle,
-}) => {
-  const onTabToggleCallback = useCallback(
-    (e) => {
-      e.preventDefault();
-      onTabToggle(tab.id);
-    },
-    [tab.id, onTabToggle]
-  );
+    getVideo(tabId, (video) => {
+      this.video = video;
 
-  const onPlaybackToggleCallback = useCallback(() => {
-    onPlaybackToggle(tab.id);
-  }, [tab.id, onPlaybackToggle]);
+      this.appendChild(
+        document.getElementById("video-card-template").content.cloneNode(true)
+      );
 
-  const onMutedToggleCallback = useCallback(() => {
-    onMutedToggle(tab.id);
-  }, [tab.id, onMutedToggle]);
+      const titleAnchor = this.querySelector(".video-card__header > a");
+      const playbackButton = this.querySelector("playback-button");
+      const volumeButton = this.querySelector("volume-button");
 
-  return (
-    <article key={tab.id} className="video-card">
-      <section className="video-card__header">
-        <a
-          href={tab.url}
-          title={chrome.i18n.getMessage("clickToGoToVideo")}
-          onClick={onTabToggleCallback}
-        >
-          {processTabTitle(tab.title)}
-        </a>
-      </section>
-      {video && (
-        <section className="video-card__actions">
-          <button
-            type="button"
-            title={chrome.i18n.getMessage(video.paused ? "play" : "pause")}
-            onClick={onPlaybackToggleCallback}
-          >
-            <i className={["fa", playbackClass(video)].join(" ")} />
-          </button>
-          <button
-            type="button"
-            title={chrome.i18n.getMessage(video.muted ? "Unmute" : "Mute")}
-            onClick={onMutedToggleCallback}
-          >
-            <i
-              className={[
-                "fa",
-                mutedClass(
-                  video ? video.muted : false,
-                  video ? video.volume : 0
-                ),
-              ].join(" ")}
-            />
-          </button>
-        </section>
-      )}
-    </article>
-  );
-};
+      titleAnchor.innerHTML = processTabTitle(this.getAttribute("tab-title"));
 
-export default VideoCard;
+      titleAnchor.setAttribute("href", this.getAttribute("tab-url"));
+      titleAnchor.setAttribute(
+        "title",
+        chrome.i18n.getMessage("clickToGoToVideo")
+      );
+
+      titleAnchor.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        toggleTab(tabId);
+      });
+
+      playbackButton.setAttribute("paused", video.paused);
+      playbackButton.setAttribute("tab-id", tabId);
+
+      volumeButton.setAttribute("muted", video.muted);
+      volumeButton.setAttribute("tab-id", tabId);
+    });
+  }
+}
+
+window.customElements.define("video-card", VideoCard);

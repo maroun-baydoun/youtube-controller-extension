@@ -9,9 +9,5 @@
       }
     ]
   ],
-  "plugins": [
-    [
-      "transform-react-jsx"
-    ]
-  ]
+  "plugins": []
 }

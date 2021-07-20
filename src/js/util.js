@@ -71,18 +71,3 @@ export const processTabTitle = (title) => {
   }
   return title;
 };
-
-export const playbackClass = (video) =>
-  video && video.paused === true ? "fa-play" : "fa-pause";
-
-export const mutedClass = (muted, volume) => {
-  if (muted === true || volume === 0) {
-    return "fa-volume-off";
-  }
-
-  if (volume < 0.5) {
-    return "fa-volume-down";
-  }
-
-  return "fa-volume-up";
-};

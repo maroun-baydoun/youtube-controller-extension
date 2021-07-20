@@ -1,7 +1,7 @@
 import "../style/style.scss";
 
 import "./components/Footer";
-import "./components/VideoCardW";
-import "./components/VideoListW";
+import "./components/VideoCard";
+import "./components/VideoList";
 import "./components/PlaybackButton";
 import "./components/VolumeButton";

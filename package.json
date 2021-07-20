@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node utils/build.js",
-    "build:prod": "NODE_ENV=production node utils/build.js",
-    "build:release": "NODE_ENV=production SEND_ANALYTICS=true node utils/build.js",
+    "build": "webpack",
+    "build:prod": "NODE_ENV=production webpack",
     "start": "node utils/webserver.js",
     "start:prod": "NODE_ENV=production node utils/webserver.js",
     "lint": "eslint ./src --fix",
-    "format": "prettier --write ./src",
+    "format": "prettier --write ./src ./webpack.config.js",
     "webpack:analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "devDependencies": {
@@ -38,7 +37,6 @@
     "webpack-dev-server": "3.11.2"
   },
   "dependencies": {
-    "react": "16.12.0",
-    "react-dom": "16.12.0"
+    
   }
 }
