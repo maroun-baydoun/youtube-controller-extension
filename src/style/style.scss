@@ -4,6 +4,12 @@ $padding-unit: 8px;
 $font-family: system, -apple-system, ".SFNSText-Regular", "San Francisco",
   "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 $font-size: 12px;
+$font-size-normal: 1rem;
+$font-size-large: 1.1rem;
+$font-size-xlarge: 1.2rem;
+$font-size-small: 0.9rem;
+$font-size-xsmall: 0.8rem;
+$font-size-xxsmall: 0.7rem;
 $primary-color: #ff5722;
 $primary-text-color: #212121;
 $main-background: #efefef;
@@ -11,25 +17,6 @@ $border-color: #dedede;
 $card-background: #ffffff;
 $card-border-radius: 5px;
 $card-shadow: 2px 4px 4px #dedede, -2px 4px 4px #dedede;
-
-:root {
-  --primary-color: #{$primary-color};
-  --primary-text-color: #{$primary-text-color};
-  --border-color: #{$border-color};
-
-  --font-size-normal: 1rem;
-  --font-size-large: 1.1rem;
-  --font-size-xlarge: 1.2rem;
-  --font-size-small: 0.9rem;
-  --font-size-xsmall: 0.8rem;
-  --font-size-xxsmall: 0.7rem;
-
-  --padding-unit: #{$padding-unit};
-
-  --footer-color: #{lighten($primary-text-color, 40)};
-  --footer-background-color: #{darken($main-background, 5)};
-  --footer-padding: calc(#{$padding-unit} / 2) calc(#{$padding-unit} * 2);
-}
 
 html,
 body {
@@ -139,11 +126,11 @@ main {
 
 footer {
   box-sizing: border-box;
-  padding: var(--footer-padding);
-  font-size: var(--font-size-xxsmall);
-  background-color: var(--footer-background-color);
-  color: var(--footer-color);
-  border-top: 1px solid var(--border-color);
+  padding: $padding-unit / 2 $padding-unit * 2;
+  font-size: $font-size-xxsmall;
+  background-color: darken($main-background, 5);
+  color: lighten($primary-text-color, 40);
+  border-top: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;

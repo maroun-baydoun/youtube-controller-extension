@@ -1,4 +1,4 @@
-import { processTabTitle, toggleTab, getVideo } from "../util.js";
+import { processTabTitle, toggleTab, getVideo } from "../util";
 
 class VideoCard extends HTMLElement {
   connectedCallback() {

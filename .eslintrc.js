@@ -3,13 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  settings: {
-    react: {
-      version: "detect",
-    },
-  },
   plugins: [
-    "import",
     "wc"
   ],
   globals: {
@@ -23,7 +17,6 @@ module.exports = {
    
   },
   rules: {
-    "import/order": ["error"],
     "quotes": ["error", "double"],
     "max-len": [
       "error", {

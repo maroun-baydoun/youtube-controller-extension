@@ -1,4 +1,4 @@
-import { queryTabs, toggleVideoPlayback } from "../util.js";
+import { queryTabs, toggleVideoPlayback } from "../util";
 
 class VideoList extends HTMLElement {
   connectedCallback() {

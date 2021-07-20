@@ -1,4 +1,4 @@
-import { toggleVideoMuted } from "../util.js";
+import { toggleVideoMuted } from "../util";
 
 class VolumeButton extends HTMLElement {
   constructor() {

@@ -1,4 +1,4 @@
-import { toggleVideoPlayback } from "../util.js";
+import { toggleVideoPlayback } from "../util";
 
 class PlaybackButton extends HTMLElement {
   constructor() {
