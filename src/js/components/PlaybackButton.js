@@ -15,7 +15,10 @@ class PlaybackButton extends HTMLElement {
     button.addEventListener("click", () => {
       const tabId = Number.parseInt(this.getAttribute("tab-id"), 10);
 
-      toggleVideoPlayback(tabId, (paused) => this.updateIcon(paused));
+      toggleVideoPlayback(tabId, (paused) => {
+        this.updateIcon(paused);
+        this.updateButton(paused);
+      });
     });
   }
 
@@ -27,6 +30,7 @@ class PlaybackButton extends HTMLElement {
     const isPaused = newValue === "true";
 
     this.updateIcon(isPaused);
+    this.updateButton(isPaused);
   }
 
   updateIcon(isPaused) {
@@ -40,6 +44,15 @@ class PlaybackButton extends HTMLElement {
       playIcon.classList.add("visible");
       pauseIcon.classList.remove("visible");
     }
+  }
+
+  updateButton(isPaused) {
+    const button = this.querySelector("button");
+
+    button.setAttribute(
+      "title",
+      chrome.i18n.getMessage(isPaused ? "play" : "pause")
+    );
   }
 
   static get observedAttributes() {

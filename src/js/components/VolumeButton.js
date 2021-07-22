@@ -15,7 +15,10 @@ class VolumeButton extends HTMLElement {
     button.addEventListener("click", () => {
       const tabId = Number.parseInt(this.getAttribute("tab-id"), 10);
 
-      toggleVideoMuted(tabId, (muted) => this.updateIcon(muted));
+      toggleVideoMuted(tabId, (muted) => {
+        this.updateIcon(muted);
+        this.updateButton(muted);
+      });
     });
   }
 
@@ -27,6 +30,7 @@ class VolumeButton extends HTMLElement {
     const isMuted = newValue === "true";
 
     this.updateIcon(isMuted);
+    this.updateButton(isMuted);
   }
 
   updateIcon(isMuted) {
@@ -40,6 +44,15 @@ class VolumeButton extends HTMLElement {
       volumeUpIcon.classList.add("visible");
       volumeOffIcon.classList.remove("visible");
     }
+  }
+
+  updateButton(isMuted) {
+    const button = this.querySelector("button");
+
+    button.setAttribute(
+      "title",
+      chrome.i18n.getMessage(isMuted ? "unmute" : "mute")
+    );
   }
 
   static get observedAttributes() {
