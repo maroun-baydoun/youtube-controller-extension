@@ -9,6 +9,10 @@ export const queryTabs = (callback) => {
   );
 };
 
+export const removeTab = (tabId, callback) => {
+  chrome.tabs.remove(tabId, callback);
+};
+
 export const getVideo = (tabId, callback) => {
   chrome.tabs.executeScript(
     tabId,

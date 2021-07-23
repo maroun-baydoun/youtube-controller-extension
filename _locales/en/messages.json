@@ -13,6 +13,9 @@
   "clickToGoToVideo": {
     "message": "Click to go to video"
   },
+  "closeVideo": {
+    "message": "Close video"
+  },
   "play": {
     "message": "Play"
   },

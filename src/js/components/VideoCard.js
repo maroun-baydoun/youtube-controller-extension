@@ -12,6 +12,7 @@ class VideoCard extends HTMLElement {
       );
 
       const titleAnchor = this.querySelector(".video-card__header > a");
+      const closeButton = this.querySelector("close-button");
       const playbackButton = this.querySelector("playback-button");
       const volumeButton = this.querySelector("volume-button");
 
@@ -27,6 +28,12 @@ class VideoCard extends HTMLElement {
         e.preventDefault();
 
         toggleTab(tabId);
+      });
+
+      closeButton.setAttribute("tab-id", tabId);
+
+      closeButton.addEventListener("videoRemoved", () => {
+        this.remove();
       });
 
       playbackButton.setAttribute("paused", video.paused);

@@ -46,6 +46,28 @@ a {
   }
 }
 
+button {
+  width: $padding-unit * 3;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  background-color: $card-background;
+  transition: 0.5s color linear;
+  cursor: pointer;
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    fill: $primary-color;
+  }
+
+  &:hover {
+    .icon {
+      fill: darken($primary-color, 8);
+    }
+  }
+}
+
 main {
   flex: 1;
   display: flex;
@@ -77,11 +99,20 @@ main {
   border-radius: $card-border-radius;
 
   .video-card__header {
+    display: flex;
+
     a {
       color: inherit;
       text-decoration: none;
       &:hover {
         text-decoration: underline;
+      }
+    }
+
+    close-button {
+      .icon {
+        width: 15px;
+        height: 15px;
       }
     }
   }
@@ -93,32 +124,14 @@ main {
     display: flex;
 
     button {
-      width: $padding-unit * 3;
-      padding: 0;
-      border: 0;
-      text-align: center;
-      font-size: 1.1em;
-      color: $primary-color;
-      background-color: $card-background;
       margin-right: $padding-unit;
-      transition: 0.5s color linear;
-      cursor: pointer;
 
       .icon {
         display: none;
-        width: 24px;
-        height: 24px;
-        fill: $primary-color;
       }
 
       .icon.visible {
         display: block;
-      }
-
-      &:hover {
-        .icon {
-          fill: darken($primary-color, 8);
-        }
       }
     }
   }
