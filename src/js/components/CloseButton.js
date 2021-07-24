@@ -18,7 +18,7 @@ class CloseButton extends HTMLElement {
       const tabId = Number.parseInt(this.getAttribute("tab-id"), 10);
 
       removeTab(tabId, () => {
-        this.dispatchEvent(new CustomEvent("videoRemoved"));
+        this.dispatchEvent(new CustomEvent("videoRemoved", { bubbles: true }));
       });
     });
   }

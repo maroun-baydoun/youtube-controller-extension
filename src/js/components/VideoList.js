@@ -2,12 +2,23 @@ import { queryTabs, toggleVideoPlayback } from "../util";
 
 class VideoList extends HTMLElement {
   connectedCallback() {
+    this.removedVideoCount = 0;
+
     queryTabs((tabs) => {
       this.tabs = tabs;
 
       if (!tabs) {
         return;
       }
+
+      this.addEventListener("videoRemoved", () => {
+        this.removedVideoCount++;
+
+        if (this.removedVideoCount === this.tabs.length) {
+          window.close();
+        }
+
+      });
 
       if (!tabs.length) {
         this.innerHTML = `<div class="notice">${chrome.i18n.getMessage(
