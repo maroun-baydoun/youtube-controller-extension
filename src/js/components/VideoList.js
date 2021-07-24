@@ -14,8 +14,8 @@ class VideoList extends HTMLElement {
           "noVideos"
         )}</div>`;
       } else if (tabs.length === 1) {
-        window.close();
         toggleVideoPlayback(tabs[0].id);
+        window.close();
       } else {
         this.innerHTML = tabs
           .map((tab) => {
