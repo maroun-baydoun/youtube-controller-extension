@@ -100,6 +100,8 @@ main {
 
   .video-card__header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     a {
       color: inherit;
@@ -110,6 +112,10 @@ main {
     }
 
     close-button {
+      button {
+        width: 15px;
+      }
+
       .icon {
         width: 15px;
         height: 15px;
