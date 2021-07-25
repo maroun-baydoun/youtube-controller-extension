@@ -17,27 +17,30 @@ class VideoList extends HTMLElement {
         if (this.removedVideoCount === this.tabs.length) {
           window.close();
         }
-
       });
 
       if (!tabs.length) {
-        this.innerHTML = `<div class="notice">${chrome.i18n.getMessage(
-          "noVideos"
-        )}</div>`;
+        const notice = document.createElement("div");
+        notice.classList.add("notice");
+        notice.appendChild(
+          document.createTextNode(chrome.i18n.getMessage("noVideos"))
+        );
+
+        this.appendChild(notice);
       } else if (tabs.length === 1) {
         toggleVideoPlayback(tabs[0].id);
         window.close();
       } else {
-        this.innerHTML = tabs
-          .map((tab) => {
-            return `<video-card 
-            tab-id="${tab.id}" 
-            tab-title="${tab.title}" 
-            tab-url="${tab.url}"
-          >
-          </video-card>`;
-          })
-          .join("");
+        const videoCards = tabs.map((tab) => {
+          const videoCard = document.createElement("video-card");
+          videoCard.setAttribute("tab-id", tab.id);
+          videoCard.setAttribute("tab-title", tab.title);
+          videoCard.setAttribute("tab-url", tab.url);
+
+          return videoCard;
+        });
+
+        videoCards.forEach((videoCard) => this.appendChild(videoCard));
       }
     });
   }

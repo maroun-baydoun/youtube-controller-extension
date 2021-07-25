@@ -9,7 +9,7 @@ class Footer extends HTMLElement {
     const versionContainer = this.querySelector(".version-container");
     const homepageAnchor = this.querySelector(".homepage");
 
-    versionContainer.innerHTML = version;
+    versionContainer.appendChild(document.createTextNode(version));
     versionContainer.setAttribute(
       "aria-label",
       chrome.i18n.getMessage("version")
