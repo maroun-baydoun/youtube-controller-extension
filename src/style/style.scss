@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $width: 300px;
 $min-height: 200px;
 $padding-unit: 8px;
@@ -45,14 +47,14 @@ body {
 }
 
 a {
-  color: lighten($primary-color, 5);
+  color: color.adjust($primary-color, $lightness: 5%);
   text-decoration: none;
   transition: 0.2s color linear;
 
   &:hover,
   &:active,
   &:focus {
-    color: darken($primary-color, 8);
+    color: color.adjust($primary-color, $lightness: -8%);
   }
 }
 
@@ -73,7 +75,7 @@ button {
 
   &:hover {
     .icon {
-      fill: darken($primary-color, 8);
+      fill: color.adjust($primary-color, $lightness: -8%);
     }
   }
 }
@@ -90,7 +92,7 @@ main {
   min-height: inherit;
   font-size: 1.2em;
   font-weight: 500;
-  color: lighten($primary-text-color, 40);
+  color: color.adjust($primary-text-color, $lightness: 40%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,10 +156,10 @@ main {
 
 footer {
   box-sizing: border-box;
-  padding: $padding-unit / 2 $padding-unit * 2;
+  padding: calc($padding-unit / 2) calc($padding-unit * 2);
   font-size: $font-size-xxsmall;
-  background-color: darken($main-background, 5);
-  color: lighten($primary-text-color, 40);
+  background-color: color.adjust($main-background, $lightness: -5%);
+  color: color.adjust($primary-text-color, $lightness: 40%);
   border-top: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
@@ -173,7 +175,7 @@ footer {
     transition: 0.2s color linear;
 
     &:hover {
-      fill: darken($primary-color, 8);
+      fill: color.adjust($primary-color, $lightness: -8%);
     }
   }
 }
