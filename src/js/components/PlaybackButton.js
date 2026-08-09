@@ -1,15 +1,17 @@
 import { toggleVideoPlayback } from "../util";
 
 class PlaybackButton extends HTMLElement {
-  constructor() {
-    super();
+  connectedCallback() {
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true;
 
     const template = document.querySelector("#playback-button-template");
 
     this.appendChild(template.content.cloneNode(true));
-  }
 
-  connectedCallback() {
     const button = this.querySelector("button");
 
     button.addEventListener("click", () => {
@@ -22,7 +24,7 @@ class PlaybackButton extends HTMLElement {
     });
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, _oldValue, newValue) {
     if (name !== "paused") {
       return;
     }

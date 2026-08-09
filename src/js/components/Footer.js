@@ -1,5 +1,11 @@
 class Footer extends HTMLElement {
   connectedCallback() {
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true;
+
     const version = chrome.runtime.getManifest().version;
 
     this.appendChild(

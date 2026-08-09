@@ -1,15 +1,17 @@
 import { removeTab } from "../util";
 
 class CloseButton extends HTMLElement {
-  constructor() {
-    super();
+  connectedCallback() {
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true;
 
     const template = document.querySelector("#close-button-template");
 
     this.appendChild(template.content.cloneNode(true));
-  }
 
-  connectedCallback() {
     const button = this.querySelector("button");
 
     button.setAttribute("title", chrome.i18n.getMessage("closeVideo"));
