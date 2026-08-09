@@ -14,42 +14,42 @@ export const removeTab = (tabId, callback) => {
 };
 
 export const getVideo = (tabId, callback) => {
-  chrome.tabs.executeScript(
-    tabId,
+  chrome.scripting.executeScript(
     {
-      file: "/video/get.js",
+      target: { tabId },
+      files: ["video/get.js"],
     },
     (result) => {
       if (result && result.length > 0) {
-        callback(result[0]);
+        callback(result[0].result);
       }
     },
   );
 };
 
 export const toggleVideoPlayback = (tabId, callback) => {
-  chrome.tabs.executeScript(
-    tabId,
+  chrome.scripting.executeScript(
     {
-      file: "/video/togglePlayback.js",
+      target: { tabId },
+      files: ["video/togglePlayback.js"],
     },
     (result) => {
       if (callback && result && result.length > 0) {
-        callback(result[0]);
+        callback(result[0].result);
       }
     },
   );
 };
 
 export const toggleVideoMuted = (tabId, callback) => {
-  chrome.tabs.executeScript(
-    tabId,
+  chrome.scripting.executeScript(
     {
-      file: "/video/toggleMuted.js",
+      target: { tabId },
+      files: ["video/toggleMuted.js"],
     },
     (result) => {
       if (result && result.length > 0) {
-        callback(result[0]);
+        callback(result[0].result);
       }
     },
   );

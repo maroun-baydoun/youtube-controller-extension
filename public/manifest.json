@@ -1,16 +1,17 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
   "author": "Maroun Baydoun",
   "version": "2.1.0",
-  "browser_action": {
+  "minimum_chrome_version": "88",
+  "action": {
     "default_popup": "popup.html"
   },
   "background": {
-    "page": "background.html",
-    "persistent": false
+    "service_worker": "background.js",
+    "type": "module"
   },
   "icons": {
     "32": "icons/icon-small.png",
@@ -18,8 +19,8 @@
     "128": "icons/icon-large.png",
     "256": "icons/icon.png"
   },
-  "permissions": ["tabs", "*://*.youtube.com/*"],
-  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": ["*://*.youtube.com/*"],
   "commands": {
     "toggle-video-1": {
       "suggested_key": {
