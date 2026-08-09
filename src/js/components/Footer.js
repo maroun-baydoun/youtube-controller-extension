@@ -3,7 +3,7 @@ class Footer extends HTMLElement {
     const version = chrome.runtime.getManifest().version;
 
     this.appendChild(
-      document.getElementById("footer-template").content.cloneNode(true)
+      document.getElementById("footer-template").content.cloneNode(true),
     );
 
     const versionContainer = this.querySelector(".version-container");
@@ -12,7 +12,7 @@ class Footer extends HTMLElement {
     versionContainer.appendChild(document.createTextNode(version));
     versionContainer.setAttribute(
       "aria-label",
-      chrome.i18n.getMessage("version")
+      chrome.i18n.getMessage("version"),
     );
 
     homepageAnchor.setAttribute("title", chrome.i18n.getMessage("homePage"));

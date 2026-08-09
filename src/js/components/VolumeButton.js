@@ -51,7 +51,7 @@ class VolumeButton extends HTMLElement {
 
     button.setAttribute(
       "title",
-      chrome.i18n.getMessage(isMuted ? "unmute" : "mute")
+      chrome.i18n.getMessage(isMuted ? "unmute" : "mute"),
     );
   }
 

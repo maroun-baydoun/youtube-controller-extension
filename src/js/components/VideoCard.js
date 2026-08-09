@@ -8,7 +8,7 @@ class VideoCard extends HTMLElement {
       this.video = video;
 
       this.appendChild(
-        document.getElementById("video-card-template").content.cloneNode(true)
+        document.getElementById("video-card-template").content.cloneNode(true),
       );
 
       const titleAnchor = this.querySelector(".video-card__header > a");
@@ -17,13 +17,15 @@ class VideoCard extends HTMLElement {
       const volumeButton = this.querySelector("volume-button");
 
       titleAnchor.appendChild(
-        document.createTextNode(processTabTitle(this.getAttribute("tab-title")))
+        document.createTextNode(
+          processTabTitle(this.getAttribute("tab-title")),
+        ),
       );
 
       titleAnchor.setAttribute("href", this.getAttribute("tab-url"));
       titleAnchor.setAttribute(
         "title",
-        chrome.i18n.getMessage("clickToGoToVideo")
+        chrome.i18n.getMessage("clickToGoToVideo"),
       );
 
       titleAnchor.addEventListener("click", (e) => {

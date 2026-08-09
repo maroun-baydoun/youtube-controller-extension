@@ -1,0 +1,37 @@
+{
+  "appName": {
+    "message": "Youtube™ Controller",
+    "description": "Youtube™ Controller"
+  },
+  "appDesc": {
+    "message": "Control Youtube™ videos from any web page",
+    "description": "Control Youtube™ videos from any web page"
+  },
+  "noVideos": {
+    "message": "No videos are running"
+  },
+  "clickToGoToVideo": {
+    "message": "Click to go to video"
+  },
+  "closeVideo": {
+    "message": "Close video"
+  },
+  "play": {
+    "message": "Play"
+  },
+  "pause": {
+    "message": "Pause"
+  },
+  "mute": {
+    "message": "Mute"
+  },
+  "unmute": {
+    "message": "Unmute"
+  },
+  "version": {
+    "message": "Extension version"
+  },
+  "homePage": {
+    "message": "Visit homepage"
+  }
+}

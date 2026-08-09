@@ -23,7 +23,7 @@ class VideoList extends HTMLElement {
         const notice = document.createElement("div");
         notice.classList.add("notice");
         notice.appendChild(
-          document.createTextNode(chrome.i18n.getMessage("noVideos"))
+          document.createTextNode(chrome.i18n.getMessage("noVideos")),
         );
 
         this.appendChild(notice);

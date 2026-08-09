@@ -51,7 +51,7 @@ class PlaybackButton extends HTMLElement {
 
     button.setAttribute(
       "title",
-      chrome.i18n.getMessage(isPaused ? "play" : "pause")
+      chrome.i18n.getMessage(isPaused ? "play" : "pause"),
     );
   }
 

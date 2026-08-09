@@ -5,7 +5,7 @@ export const queryTabs = (callback) => {
     },
     (tabs) => {
       callback(tabs);
-    }
+    },
   );
 };
 
@@ -23,7 +23,7 @@ export const getVideo = (tabId, callback) => {
       if (result && result.length > 0) {
         callback(result[0]);
       }
-    }
+    },
   );
 };
 
@@ -37,7 +37,7 @@ export const toggleVideoPlayback = (tabId, callback) => {
       if (callback && result && result.length > 0) {
         callback(result[0]);
       }
-    }
+    },
   );
 };
 
@@ -51,7 +51,7 @@ export const toggleVideoMuted = (tabId, callback) => {
       if (result && result.length > 0) {
         callback(result[0]);
       }
-    }
+    },
   );
 };
 

@@ -13,10 +13,10 @@
     "persistent": false
   },
   "icons": {
-    "32": "icon-small.png",
-    "64": "icon-medium.png",
-    "128": "icon-large.png",
-    "256": "icon.png"
+    "32": "icons/icon-small.png",
+    "64": "icons/icon-medium.png",
+    "128": "icons/icon-large.png",
+    "256": "icons/icon.png"
   },
   "permissions": ["tabs", "*://*.youtube.com/*"],
   "content_security_policy": "script-src 'self'; object-src 'self'",
