@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, "dist"),
     emptyOutDir: true,
-    target: "chrome88",
+    target: "chrome120",
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "src/popup.html"),
