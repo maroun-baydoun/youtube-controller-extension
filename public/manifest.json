@@ -4,7 +4,7 @@
   "description": "__MSG_appDesc__",
   "default_locale": "en",
   "author": "Maroun Baydoun",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "minimum_chrome_version": "120",
   "action": {
     "default_popup": "popup.html"
