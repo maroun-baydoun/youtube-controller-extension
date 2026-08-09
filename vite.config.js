@@ -11,6 +11,18 @@ export default defineConfig({
     outDir: resolve(__dirname, "dist"),
     emptyOutDir: true,
     target: "chrome120",
+    modulePreload: {
+      resolveDependencies: (_url, deps, { hostType }) => {
+        // This extension has no dynamic imports in its HTML entry points.
+        // Dropping HTML preload deps avoids unused modulepreload links in the
+        // built popup/background pages and the related browser warning.
+        if (hostType === "html") {
+          return [];
+        }
+
+        return deps;
+      },
+    },
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "src/popup.html"),
